@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             customPromptTitle: 'Prompt Personalizado',
             savePrompt: 'Guardar para después',
             customPromptPlaceholder: 'Escribe tu prompt...',
+            customPromptNamePlaceholder: 'Nombre del prompt...',
             customPromptUse: 'Usar',
             customPromptCancel: 'Cancelar',
             noSavedPrompts: 'No hay prompts guardados.',
@@ -74,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             customPromptTitle: 'Custom Prompt',
             savePrompt: 'Save for later',
             customPromptPlaceholder: 'Write your prompt...',
+            customPromptNamePlaceholder: 'Prompt name...',
             customPromptUse: 'Use',
             customPromptCancel: 'Cancel',
             noSavedPrompts: 'No saved prompts.',
@@ -150,6 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('header-subtitle').innerText = t.headerSubtitle;
         textInput.placeholder = t.placeholder;
         customPromptInput.placeholder = t.customPromptPlaceholder || '';
+        if (customPromptNameInput) customPromptNameInput.placeholder = t.customPromptNamePlaceholder || '';
         document.getElementById('main-action-btn').innerHTML = t.actionCorrect;
         document.getElementById('other-actions-label').innerText = t.otherActions;
         document.getElementById('btn-formal').innerText = t.actionFormal;
@@ -220,11 +223,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const cancelTermsBtn = document.getElementById('cancel-terms-btn');
     const customPromptModal = document.getElementById('custom-prompt-modal');
     const customPromptInput = document.getElementById('custom-prompt-input');
+    const customPromptNameInput = document.getElementById('custom-prompt-name');
     const saveCustomPromptChk = document.getElementById('save-custom-prompt');
     const savedPromptsList = document.getElementById('saved-prompts-list');
     const confirmCustomPromptBtn = document.getElementById('confirm-custom-prompt');
     const cancelCustomPromptBtn = document.getElementById('cancel-custom-prompt');
-    const historyOverlay = document.getElementById('history-overlay');
 
     // --- AUTH, MODALS & SETTINGS LOGIC ---
     const showLoginModal = () => loginRequiredModal.classList.remove('hidden');
@@ -276,6 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const showCustomPromptModal = () => {
         renderSavedPrompts();
         customPromptInput.value = '';
+        if (customPromptNameInput) customPromptNameInput.value = '';
         saveCustomPromptChk.checked = false;
         customPromptModal.classList.remove('hidden');
     };
@@ -382,10 +386,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const getCustomPrompts = () => JSON.parse(localStorage.getItem('customPrompts')) || [];
     const saveCustomPrompts = (prompts) => localStorage.setItem('customPrompts', JSON.stringify(prompts));
 
-    const addCustomPrompt = (prompt) => {
+    const addCustomPrompt = (item) => {
         let prompts = getCustomPrompts();
-        prompts.push(prompt);
+        prompts.push(item);
         if (prompts.length > MAX_CUSTOM_PROMPTS) prompts = prompts.slice(-MAX_CUSTOM_PROMPTS);
+        saveCustomPrompts(prompts);
+    };
+
+    const removeCustomPrompt = (index) => {
+        const prompts = getCustomPrompts();
+        prompts.splice(index, 1);
         saveCustomPrompts(prompts);
     };
 
@@ -397,17 +407,28 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         prompts.forEach((p, idx) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'flex items-center gap-2';
             const btn = document.createElement('button');
-            btn.className = 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm px-2 py-1 rounded mr-2';
-            btn.innerText = `Usar #${idx + 1}`;
-            btn.addEventListener('click', () => { customPromptInput.value = p; });
-            savedPromptsList.appendChild(btn);
+            btn.className = 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm px-2 py-1 rounded';
+            btn.innerText = p.name || `Prompt #${idx + 1}`;
+            btn.addEventListener('click', () => {
+                customPromptInput.value = p.text;
+                if (customPromptNameInput) customPromptNameInput.value = p.name || '';
+            });
+            const del = document.createElement('button');
+            del.className = 'text-red-600 text-sm';
+            del.innerText = '🗑';
+            del.addEventListener('click', () => { removeCustomPrompt(idx); renderSavedPrompts(); });
+            wrapper.appendChild(btn);
+            wrapper.appendChild(del);
+            savedPromptsList.appendChild(wrapper);
         });
     };
 
     // --- APP INITIALIZATION ---
     async function initializeApp() {
-        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const savedTheme = localStorage.getItem('theme') || 'dark';
         applyTranslations();
         const languageSelect = document.getElementById('language-select');
         languageSelect.value = currentLang;
@@ -444,13 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
         historyToggle.addEventListener('click', () => {
             historyPanel.classList.toggle('hidden');
             historyPanel.classList.toggle('translate-x-full');
-            historyOverlay.classList.toggle('hidden');
             userAuthArea.classList.toggle('hidden');
-        });
-        historyOverlay.addEventListener('click', () => {
-            historyPanel.classList.add('hidden', 'translate-x-full');
-            historyOverlay.classList.add('hidden');
-            userAuthArea.classList.remove('hidden');
         });
 
         clearHistoryBtn.addEventListener('click', clearHistory);
@@ -481,7 +496,8 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmCustomPromptBtn.addEventListener('click', () => {
             const prompt = customPromptInput.value.trim();
             if (!prompt) { alert(getT('writePrompt')); return; }
-            if (saveCustomPromptChk.checked) addCustomPrompt(prompt);
+            const name = customPromptNameInput ? customPromptNameInput.value.trim() : '';
+            if (saveCustomPromptChk.checked) addCustomPrompt({ name, text: prompt });
             hideCustomPromptModal();
             if (pendingAction) {
                 const { button, userText } = pendingAction;
