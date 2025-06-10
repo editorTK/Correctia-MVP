@@ -47,6 +47,7 @@
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md">
                 <h3 id="custom-prompt-title" class="text-xl font-bold mb-4">Prompt Personalizado</h3>
                 <textarea id="custom-prompt-input" rows="4" class="w-full p-2 border rounded mb-2 dark:bg-gray-700" data-i18n-placeholder="customPromptPlaceholder"></textarea>
+                <input id="custom-prompt-name" type="text" class="w-full p-2 border rounded mb-2 dark:bg-gray-700" placeholder="Nombre del prompt" data-i18n-placeholder="customPromptNamePlaceholder">
                 <div class="flex items-center mb-4">
                     <input type="checkbox" id="save-custom-prompt" class="mr-2">
                     <label id="save-custom-prompt-label" for="save-custom-prompt" class="text-sm">Guardar para después</label>
@@ -58,8 +59,6 @@
                 </div>
             </div>
         </div>
-
-        <div id="history-overlay" class="hidden fixed inset-0 bg-transparent z-20"></div>
 
         </div>
 
@@ -88,7 +87,7 @@
             </div>
         </div>
         
-        <aside id="history-panel" class="hidden fixed top-0 right-0 h-full w-80 bg-gray-800 shadow-xl z-10 flex flex-col p-4 transform transition-transform translate-x-full">
+        <aside id="history-panel" class="hidden fixed top-0 right-0 h-full w-80 bg-white dark:bg-gray-800 shadow-xl z-10 flex flex-col p-4 transform transition-transform translate-x-full">
             <div class="flex-shrink-0">
             <h3 id="history-title" class="text-xl font-bold text-white mb-4">Historial</h3>
             </div>
