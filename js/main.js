@@ -114,7 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    let currentLang = localStorage.getItem('lang') || 'es';
+    let currentLang = localStorage.getItem('lang');
+    if (!currentLang) {
+        const browserLang = navigator.language || (navigator.languages && navigator.languages[0]) || 'es';
+        const detected = typeof franc === 'function' ? franc(browserLang) : '';
+        if (detected === 'eng') currentLang = 'en';
+        else if (detected === 'spa') currentLang = 'es';
+        else currentLang = browserLang.startsWith('en') ? 'en' : 'es';
+    }
 
     const getT = (key) => TRANSLATIONS[currentLang][key];
 
