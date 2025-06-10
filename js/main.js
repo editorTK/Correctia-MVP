@@ -1,30 +1,191 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- I18N STRINGS ---
+    const TRANSLATIONS = {
+        es: {
+            settings: 'Ajustes',
+            themeLabel: 'Tema',
+            closeSettings: 'Cerrar',
+            languageLabel: 'Idioma',
+            loginRequiredTitle: 'Inicio de Sesión Requerido',
+            loginRequiredText: 'Para usar esta función, necesitas iniciar sesión. Serás redirigido a Puter para autenticarte de forma segura.',
+            loginRequiredQuestion: '¿Deseas continuar?',
+            loginConfirm: 'Sí, iniciar sesión',
+            loginCancel: 'Cancelar',
+            termsTitle: 'Términos de Uso',
+            termsText: 'Debes aceptar nuestros Términos de Uso antes de continuar.',
+            termsAccept: 'Aceptar',
+            termsCancel: 'Cancelar',
+            customPromptTitle: 'Prompt Personalizado',
+            savePrompt: 'Guardar para después',
+            customPromptPlaceholder: 'Escribe tu prompt...',
+            customPromptUse: 'Usar',
+            customPromptCancel: 'Cancelar',
+            noSavedPrompts: 'No hay prompts guardados.',
+            historyTitle: 'Historial',
+            clearHistory: 'Limpiar Historial',
+            noHistory: 'No hay historial.',
+            headerSubtitle: 'Tu navaja suiza de redacción con IA.',
+            placeholder: 'Escribe o pega tu texto aquí...',
+            actionCorrect: '✨ Corregir Ortografía y Estilo',
+            otherActions: 'Otras acciones:',
+            actionFormal: 'Formal',
+            actionCasual: 'Casual',
+            actionSimplify: 'Simplificar',
+            actionSummarize: 'Resumir',
+            actionExpand: 'Expandir',
+            actionCustom: 'Personalizado',
+            copy: 'Copiar',
+            copied: '¡Copiado!',
+            signIn: 'Iniciar Sesión',
+            signOut: 'Salir',
+            hello: 'Hola,',
+            themeToLight: 'Cambiar a Tema Claro',
+            themeToDark: 'Cambiar a Tema Oscuro',
+            noResponse: 'No se pudo obtener una respuesta.',
+            textRequired: 'Por favor, escribe algo de texto.',
+            deleteHistoryConfirm: '¿Estás seguro de que quieres borrar todo el historial?',
+            writePrompt: 'Escribe un prompt.',
+            errorProcessing: 'Hubo un error al procesar tu petición. Revisa la consola para más detalles.',
+            resultTitles: {
+                correct: 'Texto Corregido',
+                formal: 'Texto Formalizado',
+                casual: 'Texto Casual',
+                simplify: 'Texto Simplificado',
+                summarize: 'Resumen Generado',
+                expand: 'Texto Expandido',
+                custom: 'Resultado Personalizado'
+            }
+        },
+        en: {
+            settings: 'Settings',
+            themeLabel: 'Theme',
+            closeSettings: 'Close',
+            languageLabel: 'Language',
+            loginRequiredTitle: 'Login Required',
+            loginRequiredText: 'To use this feature you must sign in. You will be redirected to Puter for secure authentication.',
+            loginRequiredQuestion: 'Continue?',
+            loginConfirm: 'Yes, sign in',
+            loginCancel: 'Cancel',
+            termsTitle: 'Terms of Use',
+            termsText: 'You must accept our Terms of Use before continuing.',
+            termsAccept: 'Accept',
+            termsCancel: 'Cancel',
+            customPromptTitle: 'Custom Prompt',
+            savePrompt: 'Save for later',
+            customPromptPlaceholder: 'Write your prompt...',
+            customPromptUse: 'Use',
+            customPromptCancel: 'Cancel',
+            noSavedPrompts: 'No saved prompts.',
+            historyTitle: 'History',
+            clearHistory: 'Clear History',
+            noHistory: 'No history.',
+            headerSubtitle: 'Your AI-powered writing Swiss knife.',
+            placeholder: 'Write or paste your text here...',
+            actionCorrect: '✨ Correct Spelling and Style',
+            otherActions: 'Other actions:',
+            actionFormal: 'Formal',
+            actionCasual: 'Casual',
+            actionSimplify: 'Simplify',
+            actionSummarize: 'Summarize',
+            actionExpand: 'Expand',
+            actionCustom: 'Custom',
+            copy: 'Copy',
+            copied: 'Copied!',
+            signIn: 'Sign In',
+            signOut: 'Sign Out',
+            hello: 'Hi,',
+            themeToLight: 'Switch to Light Theme',
+            themeToDark: 'Switch to Dark Theme',
+            noResponse: 'Could not get a response.',
+            textRequired: 'Please write some text.',
+            deleteHistoryConfirm: 'Are you sure you want to clear all history?',
+            writePrompt: 'Write a prompt.',
+            errorProcessing: 'There was an error processing your request. Check console for details.',
+            resultTitles: {
+                correct: 'Corrected Text',
+                formal: 'Formal Text',
+                casual: 'Casual Text',
+                simplify: 'Simplified Text',
+                summarize: 'Generated Summary',
+                expand: 'Expanded Text',
+                custom: 'Custom Result'
+            }
+        }
+    };
+
+    let currentLang = localStorage.getItem('lang') || 'es';
+
+    const getT = (key) => TRANSLATIONS[currentLang][key];
+
+    const applyTranslations = () => {
+        const t = TRANSLATIONS[currentLang];
+        document.documentElement.lang = currentLang;
+        document.getElementById('settings-title').innerText = t.settings;
+        document.getElementById('theme-label').innerText = t.themeLabel;
+        document.getElementById('close-settings').innerText = t.closeSettings;
+        document.getElementById('language-label').innerText = t.languageLabel;
+        document.getElementById('login-required-title').innerText = t.loginRequiredTitle;
+        document.getElementById('login-required-text').innerText = t.loginRequiredText;
+        document.getElementById('login-required-question').innerText = t.loginRequiredQuestion;
+        document.getElementById('cancel-login-btn').innerText = t.loginCancel;
+        document.getElementById('confirm-login-btn').innerText = t.loginConfirm;
+        document.getElementById('terms-title').innerText = t.termsTitle;
+        document.getElementById('terms-text').innerText = t.termsText;
+        document.getElementById('cancel-terms-btn').innerText = t.termsCancel;
+        document.getElementById('accept-terms-btn').innerText = t.termsAccept;
+        document.getElementById('custom-prompt-title').innerText = t.customPromptTitle;
+        document.getElementById('save-custom-prompt-label').innerText = t.savePrompt;
+        document.getElementById('cancel-custom-prompt').innerText = t.customPromptCancel;
+        document.getElementById('confirm-custom-prompt').innerText = t.customPromptUse;
+        document.getElementById('history-title').innerText = t.historyTitle;
+        document.getElementById('clear-history-btn').innerText = t.clearHistory;
+        document.getElementById('header-subtitle').innerText = t.headerSubtitle;
+        textInput.placeholder = t.placeholder;
+        customPromptInput.placeholder = t.customPromptPlaceholder || '';
+        document.getElementById('main-action-btn').innerHTML = t.actionCorrect;
+        document.getElementById('other-actions-label').innerText = t.otherActions;
+        document.getElementById('btn-formal').innerText = t.actionFormal;
+        document.getElementById('btn-casual').innerText = t.actionCasual;
+        document.getElementById('btn-simplify').innerText = t.actionSimplify;
+        document.getElementById('btn-summarize').innerText = t.actionSummarize;
+        document.getElementById('btn-expand').innerText = t.actionExpand;
+        document.getElementById('btn-custom').innerText = t.actionCustom;
+        copyButton.innerText = t.copy;
+        document.getElementById('privacy-link').innerText = t.privacy || 'Política de Privacidad';
+        document.getElementById('terms-link').innerText = t.legalTerms || 'Términos de Uso';
+
+        // update prompt titles
+        Object.keys(PROMPTS).forEach(k => {
+            PROMPTS[k].title = t.resultTitles[k];
+        });
+    };
+
     // --- PROMPTS ---
     const PROMPTS = {
         correct: {
             title: 'Texto Corregido',
-            prompt: 'Actúa como un experto corrector de textos. Revisa el siguiente texto, corrige cualquier error de ortografía, gramática y puntuación. Mejora la redacción para que sea más clara y fluida, pero sin cambiar el significado. Devuelve únicamente el texto corregido, sin explicaciones.'
+            prompt: 'Actúa como un experto corrector de textos. Revisa el siguiente texto, corrige cualquier error de ortografía, gramática y puntuación. Mejora la redacción para que sea más clara y fluida, pero sin cambiar el significado. Devuelve únicamente el texto corregido, sin explicaciones. Responde en el idioma que está el texto a mejorar (no este prompt).'
         },
         formal: {
             title: 'Texto Formalizado',
-            prompt: 'Actúa como un asistente de redacción profesional. Transforma el siguiente texto a un tono estrictamente formal, profesional y elocuente, adecuado para un entorno corporativo o académico. Devuelve únicamente el texto transformado, sin explicaciones.'
+            prompt: 'Actúa como un asistente de redacción profesional. Transforma el siguiente texto a un tono estrictamente formal, profesional y elocuente, adecuado para un entorno corporativo o académico. Devuelve únicamente el texto transformado, sin explicaciones. Responde en el idioma que está el texto a mejorar (no este prompt).'
         },
         casual: {
             title: 'Texto Casual',
-            prompt: 'Actúa como un redactor creativo y amigable. Convierte el siguiente texto a un tono casual, relajado y cercano, como si se lo estuvieras contando a un amigo. Puedes usar un lenguaje más coloquial si es apropiado. Devuelve únicamente el texto transformado, sin explicaciones.'
+            prompt: 'Actúa como un redactor creativo y amigable. Convierte el siguiente texto a un tono casual, relajado y cercano, como si se lo estuvieras contando a un amigo. Puedes usar un lenguaje más coloquial si es apropiado. Devuelve únicamente el texto transformado, sin explicaciones. Responde en el idioma que está el texto a mejorar (no este prompt).'
         },
         simplify: {
             title: 'Texto Simplificado',
-            prompt: 'Actúa como un experto en comunicación clara. Simplifica el siguiente texto para que sea muy fácil de entender para cualquier persona, incluso si no conoce el tema. Usa palabras sencillas y frases cortas. Devuelve únicamente el texto simplificado.'
+            prompt: 'Actúa como un experto en comunicación clara. Simplifica el siguiente texto para que sea muy fácil de entender para cualquier persona, incluso si no conoce el tema. Usa palabras sencillas y frases cortas. Devuelve únicamente el texto simplificado. Responde en el idioma que está el texto a mejorar (no este prompt).'
         },
         summarize: {
             title: 'Resumen Generado',
-            prompt: 'Actúa como un analista experto. Genera un resumen conciso y claro del siguiente texto, extrayendo las ideas principales y los puntos clave. El resumen debe ser breve y directo al grano. Devuelve únicamente el resumen.'
+            prompt: 'Actúa como un analista experto. Genera un resumen conciso y claro del siguiente texto, extrayendo las ideas principales y los puntos clave. El resumen debe ser breve y directo al grano. Devuelve únicamente el resumen. Responde en el idioma que está el texto a mejorar (no este prompt).'
         },
         expand: {
             title: 'Texto Expandido',
-            prompt: 'Actúa como un escritor experto. Toma la siguiente idea o texto y desarróllalo con más detalle. Añade información relevante, ejemplos, o explicaciones para enriquecer el contenido original de forma coherente. Devuelve únicamente el texto expandido.'
+            prompt: 'Actúa como un escritor experto. Toma la siguiente idea o texto y desarróllalo con más detalle. Añade información relevante, ejemplos, o explicaciones para enriquecer el contenido original de forma coherente. Devuelve únicamente el texto expandido. Responde en el idioma que está el texto a mejorar (no este prompt).'
         }
     };
 
@@ -66,13 +227,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (puter.auth.isSignedIn()) {
             const user = await puter.auth.getUser();
             userAuthArea.innerHTML = `
-                <span class="text-sm font-medium text-gray-800 dark:text-gray-200">Hola, ${user.username}</span>
-                <button id="logout-btn" class="bg-red-600 text-white text-sm py-2 px-3 rounded-lg hover:bg-red-700">Salir</button>
+                <span class="text-sm font-medium text-gray-800 dark:text-gray-200">${getT('hello')} ${user.username}</span>
+                <button id="logout-btn" class="bg-red-600 text-white text-sm py-2 px-3 rounded-lg hover:bg-red-700">${getT('signOut')}</button>
             `;
             document.getElementById('logout-btn').addEventListener('click', handleSignOut);
         } else {
             userAuthArea.innerHTML = `
-                <button id="sign-in-btn" class="bg-green-600 text-white text-sm font-bold py-2 px-4 rounded-lg hover:bg-green-700">Iniciar Sesión</button>
+                <button id="sign-in-btn" class="bg-green-600 text-white text-sm font-bold py-2 px-4 rounded-lg hover:bg-green-700">${getT('signIn')}</button>
             `;
             document.getElementById('sign-in-btn').addEventListener('click', handleSignIn);
         }
@@ -94,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const applyTheme = (theme) => {
         document.documentElement.classList.toggle('dark', theme === 'dark');
-        themeToggle.innerText = theme === 'dark' ? 'Cambiar a Tema Claro' : 'Cambiar a Tema Oscuro';
+        themeToggle.innerText = theme === 'dark' ? getT('themeToLight') : getT('themeToDark');
         localStorage.setItem('theme', theme);
     };
 
@@ -116,20 +277,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const runPrompt = async (title, prompt, userText, button) => {
         const originalButtonText = button.innerHTML;
         button.disabled = true;
-        button.innerHTML = '🧠 Pensando...';
+        button.innerHTML = '🧠 ...';
 
         try {
             const response = await puter.ai.chat(`${prompt}\n\n---\n\n${userText}`, { model: 'gpt-4.1-nano' });
             console.log('Puter response raw:', response);
-            const resultText = response?.message?.content ? response.message.content : 'No se pudo obtener una respuesta.';
+            const resultText = response?.message?.content ? response.message.content : getT('noResponse');
             resultTitle.innerText = title;
             resultContainer.innerText = resultText;
             resultSection.classList.remove('hidden');
             addToHistory({ title, original_text: userText, result_text: resultText });
             renderHistory();
         } catch (error) {
-            console.error('Error al procesar la acción:', error);
-            alert('Hubo un error al procesar tu petición. Revisa la consola para más detalles.');
+            console.error('Error processing action:', error);
+            alert(getT('errorProcessing'));
         } finally {
             button.disabled = false;
             button.innerHTML = originalButtonText;
@@ -147,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const button = event.currentTarget;
         const action = button.dataset.action;
         const userText = textInput.value;
-        if (!userText.trim()) return alert('Por favor, escribe algo de texto.');
+        if (!userText.trim()) return alert(getT('textRequired'));
 
         if (!hasAcceptedTerms()) {
             pendingAction = { action, button, userText };
@@ -183,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearHistoryBtn.classList.toggle('hidden', history.length === 0);
 
         if (history.length === 0) {
-            historyList.innerHTML = '<p class="text-gray-400 text-sm text-center mt-4">No hay historial.</p>';
+            historyList.innerHTML = `<p class="text-gray-400 text-sm text-center mt-4">${getT('noHistory')}</p>`;
             return;
         }
 
@@ -203,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const clearHistory = () => {
-        if (confirm('¿Estás seguro de que quieres borrar todo el historial?')) {
+        if (confirm(getT('deleteHistoryConfirm'))) {
             localStorage.removeItem('correctiaHistory');
             renderHistory();
         }
@@ -225,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const prompts = getCustomPrompts();
         savedPromptsList.innerHTML = '';
         if (prompts.length === 0) {
-            savedPromptsList.innerHTML = '<p class="text-sm text-gray-500">No hay prompts guardados.</p>';
+            savedPromptsList.innerHTML = `<p class="text-sm text-gray-500">${getT('noSavedPrompts')}</p>`;
             return;
         }
         prompts.forEach((p, idx) => {
@@ -240,6 +401,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- APP INITIALIZATION ---
     async function initializeApp() {
         const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        applyTranslations();
+        const languageSelect = document.getElementById('language-select');
+        languageSelect.value = currentLang;
+        languageSelect.addEventListener('change', () => {
+            currentLang = languageSelect.value;
+            localStorage.setItem('lang', currentLang);
+            applyTranslations();
+            updateAuthStateUI();
+        });
         applyTheme(savedTheme);
         await updateAuthStateUI();
         
@@ -259,8 +429,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         copyButton.addEventListener('click', () => {
             navigator.clipboard.writeText(resultContainer.innerText).then(() => {
-                copyButton.innerText = '¡Copiado!';
-                setTimeout(() => { copyButton.innerText = 'Copiar'; }, 2000);
+                copyButton.innerText = getT('copied');
+                setTimeout(() => { copyButton.innerText = getT('copy'); }, 2000);
             });
         });
 
@@ -268,10 +438,12 @@ document.addEventListener('DOMContentLoaded', () => {
             historyPanel.classList.toggle('hidden');
             historyPanel.classList.toggle('translate-x-full');
             historyOverlay.classList.toggle('hidden');
+            userAuthArea.classList.toggle('hidden');
         });
         historyOverlay.addEventListener('click', () => {
             historyPanel.classList.add('hidden', 'translate-x-full');
             historyOverlay.classList.add('hidden');
+            userAuthArea.classList.remove('hidden');
         });
 
         clearHistoryBtn.addEventListener('click', clearHistory);
@@ -301,13 +473,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         confirmCustomPromptBtn.addEventListener('click', () => {
             const prompt = customPromptInput.value.trim();
-            if (!prompt) { alert('Escribe un prompt.'); return; }
+            if (!prompt) { alert(getT('writePrompt')); return; }
             if (saveCustomPromptChk.checked) addCustomPrompt(prompt);
             hideCustomPromptModal();
             if (pendingAction) {
                 const { button, userText } = pendingAction;
                 pendingAction = null;
-                runPrompt('Resultado Personalizado', prompt, userText, button);
+                runPrompt(getT('resultTitles').custom, `${prompt}\n\nResponde en el idioma que está el texto a mejorar (no este prompt).`, userText, button);
             }
         });
 
