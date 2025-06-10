@@ -47,6 +47,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginRequiredModal = document.getElementById('login-required-modal');
     const confirmLoginBtn = document.getElementById('confirm-login-btn');
     const cancelLoginBtn = document.getElementById('cancel-login-btn');
+    const acceptTermsModal = document.getElementById('accept-terms-modal');
+    const acceptTermsBtn = document.getElementById('accept-terms-btn');
+    const cancelTermsBtn = document.getElementById('cancel-terms-btn');
+    const customPromptModal = document.getElementById('custom-prompt-modal');
+    const customPromptInput = document.getElementById('custom-prompt-input');
+    const saveCustomPromptChk = document.getElementById('save-custom-prompt');
+    const savedPromptsList = document.getElementById('saved-prompts-list');
+    const confirmCustomPromptBtn = document.getElementById('confirm-custom-prompt');
+    const cancelCustomPromptBtn = document.getElementById('cancel-custom-prompt');
+    const historyOverlay = document.getElementById('history-overlay');
 
     // --- AUTH, MODALS & SETTINGS LOGIC ---
     const showLoginModal = () => loginRequiredModal.classList.remove('hidden');
@@ -89,6 +99,43 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- MAIN APP LOGIC ---
+    let pendingAction = null;
+
+    const hasAcceptedTerms = () => localStorage.getItem('acceptedLegal') === 'true';
+    const showTermsModal = () => acceptTermsModal.classList.remove('hidden');
+    const hideTermsModal = () => acceptTermsModal.classList.add('hidden');
+
+    const showCustomPromptModal = () => {
+        renderSavedPrompts();
+        customPromptInput.value = '';
+        saveCustomPromptChk.checked = false;
+        customPromptModal.classList.remove('hidden');
+    };
+    const hideCustomPromptModal = () => customPromptModal.classList.add('hidden');
+
+    const runPrompt = async (title, prompt, userText, button) => {
+        const originalButtonText = button.innerHTML;
+        button.disabled = true;
+        button.innerHTML = '🧠 Pensando...';
+
+        try {
+            const response = await puter.ai.chat(`${prompt}\n\n---\n\n${userText}`, { model: 'gpt-4.1-nano' });
+            console.log('Puter response raw:', response);
+            const resultText = response?.message?.content ? response.message.content : 'No se pudo obtener una respuesta.';
+            resultTitle.innerText = title;
+            resultContainer.innerText = resultText;
+            resultSection.classList.remove('hidden');
+            addToHistory({ title, original_text: userText, result_text: resultText });
+            renderHistory();
+        } catch (error) {
+            console.error('Error al procesar la acción:', error);
+            alert('Hubo un error al procesar tu petición. Revisa la consola para más detalles.');
+        } finally {
+            button.disabled = false;
+            button.innerHTML = originalButtonText;
+        }
+    };
+
     const handleActionClick = async (event) => {
         event.preventDefault();
 
@@ -102,37 +149,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const userText = textInput.value;
         if (!userText.trim()) return alert('Por favor, escribe algo de texto.');
 
-        const originalButtonText = button.innerHTML;
-        button.disabled = true;
-        button.innerHTML = '🧠 Pensando...';
-
-        try {
-            const config = PROMPTS[action];
-            const finalPrompt = `${config.prompt}\n\n---\n\n${userText}`;
-            const response = await puter.ai.chat(finalPrompt, { model: 'gpt-4.1-nano' });
-console.log("Puter response raw:", response);  // para ver la estructura real
-
-const resultText = response?.message?.content
-  ? response.message.content
-  : "No se pudo obtener una respuesta.";
-            resultTitle.innerText = config.title;
-            resultContainer.innerText = resultText;
-            resultSection.classList.remove('hidden');
-
-            addToHistory({
-                title: config.title,
-                original_text: userText,
-                result_text: resultText
-            });
-            renderHistory();
-
-        } catch (error) {
-            console.error('Error al procesar la acción:', error);
-            alert('Hubo un error al procesar tu petición. Revisa la consola para más detalles.');
-        } finally {
-            button.disabled = false;
-            button.innerHTML = originalButtonText;
+        if (!hasAcceptedTerms()) {
+            pendingAction = { action, button, userText };
+            showTermsModal();
+            return;
         }
+
+        if (action === 'custom') {
+            pendingAction = { action, button, userText };
+            showCustomPromptModal();
+            return;
+        }
+
+        const config = PROMPTS[action];
+        await runPrompt(config.title, config.prompt, userText, button);
     };
 
     // --- HISTORY LOGIC ---
@@ -179,6 +209,34 @@ const resultText = response?.message?.content
         }
     };
 
+    // --- CUSTOM PROMPTS LOGIC ---
+    const MAX_CUSTOM_PROMPTS = 2;
+    const getCustomPrompts = () => JSON.parse(localStorage.getItem('customPrompts')) || [];
+    const saveCustomPrompts = (prompts) => localStorage.setItem('customPrompts', JSON.stringify(prompts));
+
+    const addCustomPrompt = (prompt) => {
+        let prompts = getCustomPrompts();
+        prompts.push(prompt);
+        if (prompts.length > MAX_CUSTOM_PROMPTS) prompts = prompts.slice(-MAX_CUSTOM_PROMPTS);
+        saveCustomPrompts(prompts);
+    };
+
+    const renderSavedPrompts = () => {
+        const prompts = getCustomPrompts();
+        savedPromptsList.innerHTML = '';
+        if (prompts.length === 0) {
+            savedPromptsList.innerHTML = '<p class="text-sm text-gray-500">No hay prompts guardados.</p>';
+            return;
+        }
+        prompts.forEach((p, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm px-2 py-1 rounded mr-2';
+            btn.innerText = `Usar #${idx + 1}`;
+            btn.addEventListener('click', () => { customPromptInput.value = p; });
+            savedPromptsList.appendChild(btn);
+        });
+    };
+
     // --- APP INITIALIZATION ---
     async function initializeApp() {
         const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -189,7 +247,11 @@ const resultText = response?.message?.content
         
         settingsToggle.addEventListener('click', () => settingsModal.classList.remove('hidden'));
         closeSettingsBtn.addEventListener('click', () => settingsModal.classList.add('hidden'));
-        
+        settingsModal.addEventListener('click', (e) => { if (e.target === settingsModal) settingsModal.classList.add('hidden'); });
+        loginRequiredModal.addEventListener('click', (e) => { if (e.target === loginRequiredModal) hideLoginModal(); });
+        acceptTermsModal.addEventListener('click', (e) => { if (e.target === acceptTermsModal) hideTermsModal(); });
+        customPromptModal.addEventListener('click', (e) => { if (e.target === customPromptModal) hideCustomPromptModal(); });
+
         themeToggle.addEventListener('click', () => {
             const newTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
             applyTheme(newTheme);
@@ -205,16 +267,52 @@ const resultText = response?.message?.content
         historyToggle.addEventListener('click', () => {
             historyPanel.classList.toggle('hidden');
             historyPanel.classList.toggle('translate-x-full');
+            historyOverlay.classList.toggle('hidden');
+        });
+        historyOverlay.addEventListener('click', () => {
+            historyPanel.classList.add('hidden', 'translate-x-full');
+            historyOverlay.classList.add('hidden');
         });
 
         clearHistoryBtn.addEventListener('click', clearHistory);
-        
+
         cancelLoginBtn.addEventListener('click', hideLoginModal);
         confirmLoginBtn.addEventListener('click', () => {
             hideLoginModal();
             handleSignIn();
         });
         
+        acceptTermsBtn.addEventListener('click', () => {
+            localStorage.setItem('acceptedLegal', 'true');
+            hideTermsModal();
+            if (pendingAction) {
+                const { action, button, userText } = pendingAction;
+                pendingAction = null;
+                if (action === 'custom') {
+                    showCustomPromptModal();
+                } else {
+                    const config = PROMPTS[action];
+                    runPrompt(config.title, config.prompt, userText, button);
+                }
+            }
+        });
+
+        cancelTermsBtn.addEventListener('click', () => { hideTermsModal(); pendingAction = null; });
+
+        confirmCustomPromptBtn.addEventListener('click', () => {
+            const prompt = customPromptInput.value.trim();
+            if (!prompt) { alert('Escribe un prompt.'); return; }
+            if (saveCustomPromptChk.checked) addCustomPrompt(prompt);
+            hideCustomPromptModal();
+            if (pendingAction) {
+                const { button, userText } = pendingAction;
+                pendingAction = null;
+                runPrompt('Resultado Personalizado', prompt, userText, button);
+            }
+        });
+
+        cancelCustomPromptBtn.addEventListener('click', () => { hideCustomPromptModal(); pendingAction = null; });
+
         renderHistory();
     }
 
