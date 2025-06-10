@@ -21,9 +21,9 @@
 
         <div id="login-required-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center p-4">
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-sm text-center">
-                <h3 class="text-xl font-bold mb-2">Inicio de Sesión Requerido</h3>
-                <p class="text-gray-600 dark:text-gray-300 mb-4">Para usar esta función, necesitas iniciar sesión. Serás redirigido a Puter para autenticarte de forma segura.</p>
-                <p class="text-sm text-gray-500 mb-6">¿Deseas continuar?</p>
+                <h3 id="login-required-title" class="text-xl font-bold mb-2">Inicio de Sesión Requerido</h3>
+                <p id="login-required-text" class="text-gray-600 dark:text-gray-300 mb-4">Para usar esta función, necesitas iniciar sesión. Serás redirigido a Puter para autenticarte de forma segura.</p>
+                <p id="login-required-question" class="text-sm text-gray-500 mb-6">¿Deseas continuar?</p>
                 <div class="flex justify-center gap-4">
                     <button id="cancel-login-btn" class="bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 py-2 px-6 rounded-lg hover:bg-gray-400">Cancelar</button>
                     <button id="confirm-login-btn" class="bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700">Sí, iniciar sesión</button>
@@ -33,8 +33,8 @@
 
         <div id="accept-terms-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center p-4">
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-sm text-center">
-                <h3 class="text-lg font-bold mb-2">Términos de Uso</h3>
-                <p class="text-sm mb-4">Debes aceptar nuestros <a href="legal/terms.html" class="underline text-blue-600">Términos de Uso</a> antes de continuar.</p>
+                <h3 id="terms-title" class="text-lg font-bold mb-2">Términos de Uso</h3>
+                <p id="terms-text" class="text-sm mb-4">Debes aceptar nuestros <a href="legal/terms.html" class="underline text-blue-600">Términos de Uso</a> antes de continuar.</p>
                 <div class="flex justify-center gap-4">
                     <button id="cancel-terms-btn" class="bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 py-2 px-4 rounded-lg hover:bg-gray-400">Cancelar</button>
                     <button id="accept-terms-btn" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Aceptar</button>
@@ -44,11 +44,11 @@
 
         <div id="custom-prompt-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center p-4">
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md">
-                <h3 class="text-xl font-bold mb-4">Prompt Personalizado</h3>
-                <textarea id="custom-prompt-input" rows="4" class="w-full p-2 border rounded mb-2 dark:bg-gray-700"></textarea>
+                <h3 id="custom-prompt-title" class="text-xl font-bold mb-4">Prompt Personalizado</h3>
+                <textarea id="custom-prompt-input" rows="4" class="w-full p-2 border rounded mb-2 dark:bg-gray-700" data-i18n-placeholder="customPromptPlaceholder"></textarea>
                 <div class="flex items-center mb-4">
                     <input type="checkbox" id="save-custom-prompt" class="mr-2">
-                    <label for="save-custom-prompt" class="text-sm">Guardar para después</label>
+                    <label id="save-custom-prompt-label" for="save-custom-prompt" class="text-sm">Guardar para después</label>
                 </div>
                 <div id="saved-prompts-list" class="space-y-1 mb-4"></div>
                 <div class="flex justify-end gap-4">
@@ -71,18 +71,25 @@
         
         <div id="settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-30 flex items-center justify-center">
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-sm">
-                <h3 class="text-xl font-bold mb-4">Ajustes</h3>
-                <div class="flex items-center justify-between">
-                    <label for="theme-toggle" class="text-gray-800 dark:text-gray-200">Tema</label>
+                <h3 id="settings-title" class="text-xl font-bold mb-4">Ajustes</h3>
+                <div class="flex items-center justify-between mb-2">
+                    <label id="theme-label" for="theme-toggle" class="text-gray-800 dark:text-gray-200">Tema</label>
                     <button id="theme-toggle" class="bg-blue-600 text-white py-1 px-4 rounded-full"></button>
                 </div>
-                <button id="close-settings" class="mt-6 w-full bg-gray-200 dark:bg-gray-600 py-2 rounded-lg">Cerrar</button>
+                <div class="flex items-center justify-between mb-4">
+                    <label id="language-label" for="language-select" class="text-gray-800 dark:text-gray-200">Idioma</label>
+                    <select id="language-select" class="bg-gray-200 dark:bg-gray-700 rounded px-2 py-1">
+                        <option value="es">Español</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <button id="close-settings" class="mt-2 w-full bg-gray-200 dark:bg-gray-600 py-2 rounded-lg">Cerrar</button>
             </div>
         </div>
         
         <aside id="history-panel" class="hidden fixed top-0 right-0 h-full w-80 bg-gray-800 shadow-xl z-10 flex flex-col p-4 transform transition-transform translate-x-full">
             <div class="flex-shrink-0">
-                <h3 class="text-xl font-bold text-white mb-4">Historial</h3>
+            <h3 id="history-title" class="text-xl font-bold text-white mb-4">Historial</h3>
             </div>
             <div id="history-list" class="flex-grow space-y-2 overflow-y-auto"></div>
             <div class="flex-shrink-0 pt-2">
@@ -94,28 +101,28 @@
 
         <header class="text-center mb-8 pt-12">
             <h1 class="text-4xl md:text-5xl font-bold text-blue-600 dark:text-blue-400">Correctia 🚀</h1>
-            <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">Tu navaja suiza de redacción con IA.</p>
+            <p id="header-subtitle" class="text-lg text-gray-600 dark:text-gray-400 mt-2">Tu navaja suiza de redacción con IA.</p>
         </header>
 
         <main>
             <form id="main-form">
                 <div class="mb-4">
                     <label for="text-to-correct" class="sr-only">Texto a procesar</label>
-                    <textarea id="text-to-correct" rows="10" class="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-blue-400 dark:placeholder-gray-500" placeholder="Escribe o pega tu texto aquí..."></textarea>
+                    <textarea id="text-to-correct" rows="10" class="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-blue-400 dark:placeholder-gray-500" placeholder="Escribe o pega tu texto aquí..." data-i18n-placeholder="mainTextarea"></textarea>
                 </div>
                 
                 <div class="flex flex-col items-center gap-4">
-                    <button type="submit" data-action="correct" class="action-btn w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+                    <button id="main-action-btn" type="submit" data-action="correct" class="action-btn w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
                         ✨ Corregir Ortografía y Estilo
                     </button>
                     <div class="flex flex-wrap justify-center gap-2">
-                        <span class="text-sm self-center text-gray-500 mr-2">Otras acciones:</span>
-                        <button type="button" data-action="formal" class="action-btn text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 py-1 px-3 rounded-full">Formal</button>
-                        <button type="button" data-action="casual" class="action-btn text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 py-1 px-3 rounded-full">Casual</button>
-                        <button type="button" data-action="simplify" class="action-btn text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 py-1 px-3 rounded-full">Simplificar</button>
-                        <button type="button" data-action="summarize" class="action-btn text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 py-1 px-3 rounded-full">Resumir</button>
-                        <button type="button" data-action="expand" class="action-btn text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 py-1 px-3 rounded-full">Expandir</button>
-                        <button type="button" data-action="custom" class="action-btn text-sm bg-purple-600 hover:bg-purple-700 text-white py-1 px-3 rounded-full">Personalizado</button>
+                        <span id="other-actions-label" class="text-sm self-center text-gray-500 mr-2">Otras acciones:</span>
+                        <button id="btn-formal" type="button" data-action="formal" class="action-btn text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 py-1 px-3 rounded-full">Formal</button>
+                        <button id="btn-casual" type="button" data-action="casual" class="action-btn text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 py-1 px-3 rounded-full">Casual</button>
+                        <button id="btn-simplify" type="button" data-action="simplify" class="action-btn text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 py-1 px-3 rounded-full">Simplificar</button>
+                        <button id="btn-summarize" type="button" data-action="summarize" class="action-btn text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 py-1 px-3 rounded-full">Resumir</button>
+                        <button id="btn-expand" type="button" data-action="expand" class="action-btn text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 py-1 px-3 rounded-full">Expandir</button>
+                        <button id="btn-custom" type="button" data-action="custom" class="action-btn text-sm bg-purple-600 hover:bg-purple-700 text-white py-1 px-3 rounded-full">Personalizado</button>
                     </div>
                 </div>
             </form>
@@ -139,9 +146,9 @@
     <footer class="w-full text-center p-4 text-gray-500 dark:text-gray-400 text-sm">
         <p>&copy; 2025 Correctia. Todos los derechos reservados.</p>
         <div class="mt-2">
-            <a href="legal/privacy-policy.html" class="hover:text-blue-500 underline">Política de Privacidad</a>
+            <a id="privacy-link" href="legal/privacy-policy.html" class="hover:text-blue-500 underline">Política de Privacidad</a>
             <span class="mx-2">|</span>
-            <a href="legal/terms.html" class="hover:text-blue-500 underline">Términos de Uso</a>
+            <a id="terms-link" href="legal/terms.html" class="hover:text-blue-500 underline">Términos de Uso</a>
         </div>
     </footer>
     
