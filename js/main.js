@@ -486,7 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pendingAction) {
                 const { button, userText } = pendingAction;
                 pendingAction = null;
-                runPrompt(getT('resultTitles').custom, `${prompt}\n\nMejora el siguiente texto del usuario siguiendo sus indicaciones. Responde únicamente con el texto mejorado. No utilices formato Markdown. Responde en el idioma que está el texto a mejorar (no este prompt).`, userText, button);
+                runPrompt(getT('resultTitles').custom, `${prompt}\n\nEres un agente que ayuda a las personas a corregir, cambiar de tono, eliminar faltas de ortografía, etc., a las personas. Mejora el siguiente texto del usuario siguiendo sus indicaciones (p.j., si dice "chistoso", quiere un tono chistoso para el texto). Responde únicamente con el texto mejorado. No utilices formato Markdown. Responde en el idioma que está el texto a mejorar (no este prompt).`, userText, button);
             }
         });
 
