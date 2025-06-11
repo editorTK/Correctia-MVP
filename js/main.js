@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         casual: {
             title: 'Texto Casual',
-            prompt: 'Actúa como un redactor creativo y amigable. Convierte el siguiente texto a un tono casual, relajado y cercano, como si se lo estuvieras contando a un amigo. Puedes usar un lenguaje más coloquial si es apropiado. Devuelve únicamente el texto transformado, sin explicaciones. Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY INPORTANTE).'
+            prompt: 'Actúa como un redactor creativo y amigable. Convierte el siguiente texto a un tono casual, relajado y cercano, como si se lo estuvieras contando a un amigo. Puedes usar un lenguaje más coloquial si es apropiado. Devuelve únicamente el texto transformado, sin explicaciones. Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
         },
         simplify: {
             title: 'Texto Simplificado',
