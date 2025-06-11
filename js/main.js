@@ -167,27 +167,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const PROMPTS = {
         correct: {
             title: 'Texto Corregido',
-            prompt: 'Actúa como un experto corrector de textos. Revisa el siguiente texto, corrige cualquier error de ortografía, gramática y puntuación. Mejora la redacción para que sea más clara y fluida, pero sin cambiar el significado. Devuelve únicamente el texto corregido, sin explicaciones. Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
+            prompt: 'Actúa como un experto corrector de textos. Revisa el siguiente texto, corrige cualquier error de ortografía, gramática y puntuación. Mejora la redacción para que sea más clara y fluida, pero sin cambiar el significado. Devuelve únicamente el texto corregido, sin explicaciones (esto es MUY IMPORTANTE, ya que no estás en un chat convencional). Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
         },
         formal: {
             title: 'Texto Formalizado',
-            prompt: 'Actúa como un asistente de redacción profesional. Transforma el siguiente texto a un tono estrictamente formal, profesional y elocuente, adecuado para un entorno corporativo o académico. Devuelve únicamente el texto transformado, sin explicaciones. Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
+            prompt: 'Actúa como un asistente de redacción profesional. Transforma el siguiente texto a un tono estrictamente formal, profesional y elocuente, adecuado para un entorno corporativo o académico. Devuelve únicamente el texto transformado, sin explicaciones (esto es MUY IMPORTANTE, ya que no estás en un chat convenciona). Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
         },
         casual: {
             title: 'Texto Casual',
-            prompt: 'Actúa como un redactor creativo y amigable. Convierte el siguiente texto a un tono casual, relajado y cercano, como si se lo estuvieras contando a un amigo. Puedes usar un lenguaje más coloquial si es apropiado. Devuelve únicamente el texto transformado, sin explicaciones. Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
+            prompt: 'Actúa como un redactor creativo y amigable. Convierte el siguiente texto a un tono casual, relajado y cercano, como si se lo estuvieras contando a un amigo. Puedes usar un lenguaje más coloquial si es apropiado. Devuelve únicamente el texto transformado, sin explicaciones (esto es MUY IMPORTANTE, ya que no estás en un chat convencional). Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
         },
         simplify: {
             title: 'Texto Simplificado',
-            prompt: 'Actúa como un experto en comunicación clara. Simplifica el siguiente texto para que sea muy fácil de entender para cualquier persona, incluso si no conoce el tema. Usa palabras sencillas y frases cortas. Devuelve únicamente el texto simplificado. Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
+            prompt: 'Actúa como un experto en comunicación clara. Simplifica el siguiente texto para que sea muy fácil de entender para cualquier persona, incluso si no conoce el tema. Usa palabras sencillas y frases cortas. Devuelve únicamente el texto simplificado (esto es MUY IMPORTANTE, ya que no estás en un chat convencional). Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
         },
         summarize: {
             title: 'Resumen Generado',
-            prompt: 'Actúa como un analista experto. Genera un resumen conciso y claro del siguiente texto, extrayendo las ideas principales y los puntos clave. El resumen debe ser breve y directo al grano. Devuelve únicamente el resumen. Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
+            prompt: 'Actúa como un analista experto. Genera un resumen conciso y claro del siguiente texto, extrayendo las ideas principales y los puntos clave. El resumen debe ser breve y directo al grano. Devuelve únicamente el resumen (esto es MUY IMPORTANTE, ya que no estás en un chat convencional). Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
         },
         expand: {
             title: 'Texto Expandido',
-            prompt: 'Actúa como un escritor experto. Toma la siguiente idea o texto y desarróllalo con más detalle. Añade información relevante, ejemplos, o explicaciones para enriquecer el contenido original de forma coherente. Devuelve únicamente el texto expandido. Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
+            prompt: 'Actúa como un escritor experto. Toma la siguiente idea o texto y desarróllalo con más detalle. Añade información relevante, ejemplos, o explicaciones para enriquecer el contenido original de forma coherente. Devuelve únicamente el texto expandido (esto es MUY IMPORTANTE, ya que no estás en un chat convencional). Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
         }
     };
 
