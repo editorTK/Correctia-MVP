@@ -486,7 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pendingAction) {
                 const { button, userText } = pendingAction;
                 pendingAction = null;
-                runPrompt(getT('resultTitles').custom, `${prompt}\n\nResponde en el idioma que está el texto a mejorar (no este prompt).`, userText, button);
+                runPrompt(getT('resultTitles').custom, `${prompt}\n\nMejora el siguiente texto del usuario siguiendo sus indicaciones. Responde únicamente con el texto mejorado. No utilices formato Markdown. Responde en el idioma que está el texto a mejorar (no este prompt).`, userText, button);
             }
         });
 
