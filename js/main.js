@@ -320,6 +320,8 @@ document.addEventListener('DOMContentLoaded', () => {
             responseInfo.classList.remove('hidden');
             button.disabled = false;
             button.innerHTML = originalButtonText;
+            button.classList.add('bounce-once');
+            setTimeout(() => button.classList.remove('bounce-once'), 400);
         }
     };
 
