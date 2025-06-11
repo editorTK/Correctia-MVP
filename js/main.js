@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const TRANSLATIONS = {
         es: {
             settings: 'Ajustes',
-            themeLabel: 'Tema',
             closeSettings: 'Cerrar',
             languageLabel: 'Idioma',
             loginRequiredTitle: 'Inicio de Sesión Requerido',
@@ -40,10 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
             signIn: 'Iniciar Sesión',
             signOut: 'Salir',
             hello: 'Hola,',
-            themeToLight: 'Cambiar a Tema Claro',
-            themeToDark: 'Cambiar a Tema Oscuro',
             noResponse: 'No se pudo obtener una respuesta.',
             textRequired: 'Por favor, escribe algo de texto.',
+            responseTime: 'Tiempo de respuesta',
             deleteHistoryConfirm: '¿Estás seguro de que quieres borrar todo el historial?',
             writePrompt: 'Escribe un prompt.',
             errorProcessing: 'Hubo un error al procesar tu petición. Revisa la consola para más detalles.',
@@ -59,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         en: {
             settings: 'Settings',
-            themeLabel: 'Theme',
             closeSettings: 'Close',
             languageLabel: 'Language',
             loginRequiredTitle: 'Login Required',
@@ -95,10 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
             signIn: 'Sign In',
             signOut: 'Sign Out',
             hello: 'Hi,',
-            themeToLight: 'Switch to Light Theme',
-            themeToDark: 'Switch to Dark Theme',
             noResponse: 'Could not get a response.',
             textRequired: 'Please write some text.',
+            responseTime: 'Response time',
             deleteHistoryConfirm: 'Are you sure you want to clear all history?',
             writePrompt: 'Write a prompt.',
             errorProcessing: 'There was an error processing your request. Check console for details.',
@@ -129,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const t = TRANSLATIONS[currentLang];
         document.documentElement.lang = currentLang;
         document.getElementById('settings-title').innerText = t.settings;
-        document.getElementById('theme-label').innerText = t.themeLabel;
         document.getElementById('close-settings').innerText = t.closeSettings;
         document.getElementById('language-label').innerText = t.languageLabel;
         document.getElementById('login-required-title').innerText = t.loginRequiredTitle;
@@ -201,13 +196,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsToggle = document.getElementById('settings-toggle');
     const settingsModal = document.getElementById('settings-modal');
     const closeSettingsBtn = document.getElementById('close-settings');
-    const themeToggle = document.getElementById('theme-toggle');
     const textInput = document.getElementById('text-to-correct');
     const actionButtons = document.querySelectorAll('.action-btn');
     const resultSection = document.getElementById('result-section');
     const resultTitle = document.getElementById('result-title');
     const resultContainer = document.getElementById('result-text-container');
     const copyButton = document.getElementById('copy-button');
+    const responseInfo = document.getElementById('response-info');
+    const responseTimeEl = document.getElementById('response-time');
+    const responseIndicator = document.getElementById('response-indicator');
     const historyPanel = document.getElementById('history-panel');
     const historyToggle = document.getElementById('history-toggle');
     const historyList = document.getElementById('history-list');
@@ -260,11 +257,6 @@ document.addEventListener('DOMContentLoaded', () => {
         await updateAuthStateUI();
     };
 
-    const applyTheme = (theme) => {
-        document.documentElement.classList.toggle('dark', theme === 'dark');
-        themeToggle.innerText = theme === 'dark' ? getT('themeToLight') : getT('themeToDark');
-        localStorage.setItem('theme', theme);
-    };
 
     // --- MAIN APP LOGIC ---
     let pendingAction = null;
@@ -285,6 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const originalButtonText = button.innerHTML;
         button.disabled = true;
         button.innerHTML = '🧠 ...';
+        const startTime = performance.now();
 
         try {
             const response = await puter.ai.chat(`${prompt}\n\n---\n\n${userText}`, { model: 'gpt-4.1-nano' });
@@ -299,6 +292,15 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error processing action:', error);
             alert(getT('errorProcessing'));
         } finally {
+            const diff = performance.now() - startTime;
+            const seconds = (diff / 1000).toFixed(1);
+            let color = 'bg-purple-500';
+            if (diff > 8000) color = 'bg-red-500';
+            else if (diff > 4000) color = 'bg-yellow-500';
+            else if (diff > 2000) color = 'bg-green-500';
+            responseTimeEl.innerText = `${getT('responseTime')}: ${seconds}s`;
+            responseIndicator.className = `w-3 h-3 rounded-full ${color}`;
+            responseInfo.classList.remove('hidden');
             button.disabled = false;
             button.innerHTML = originalButtonText;
         }
@@ -306,6 +308,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleActionClick = async (event) => {
         event.preventDefault();
+
+        responseInfo.classList.add('hidden');
 
         if (!puter.auth.isSignedIn()) {
             showLoginModal();
@@ -407,7 +411,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- APP INITIALIZATION ---
     async function initializeApp() {
-        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         applyTranslations();
         const languageSelect = document.getElementById('language-select');
         languageSelect.value = currentLang;
@@ -417,7 +420,6 @@ document.addEventListener('DOMContentLoaded', () => {
             applyTranslations();
             updateAuthStateUI();
         });
-        applyTheme(savedTheme);
         await updateAuthStateUI();
         
         actionButtons.forEach(button => button.addEventListener('click', handleActionClick));
@@ -429,10 +431,6 @@ document.addEventListener('DOMContentLoaded', () => {
         acceptTermsModal.addEventListener('click', (e) => { if (e.target === acceptTermsModal) hideTermsModal(); });
         customPromptModal.addEventListener('click', (e) => { if (e.target === customPromptModal) hideCustomPromptModal(); });
 
-        themeToggle.addEventListener('click', () => {
-            const newTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
-            applyTheme(newTheme);
-        });
         
         copyButton.addEventListener('click', () => {
             navigator.clipboard.writeText(resultContainer.innerText).then(() => {
