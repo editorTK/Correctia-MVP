@@ -6,6 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
             settings: 'Ajustes',
             closeSettings: 'Cerrar',
             languageLabel: 'Idioma',
+            themeLabel: "Tema",
+            themeDefault: "Predeterminado",
+            themeLight: "Claro",
+            themeDark: "Oscuro",
             loginRequiredTitle: 'Inicio de Sesión Requerido',
             loginRequiredText: 'Para usar esta función, necesitas iniciar sesión. Serás redirigido a Puter para autenticarte de forma segura.',
             loginRequiredQuestion: '¿Deseas continuar?',
@@ -63,6 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
             settings: 'Settings',
             closeSettings: 'Close',
             languageLabel: 'Language',
+            themeLabel: "Theme",
+            themeDefault: "Default",
+            themeLight: "Light",
+            themeDark: "Dark",
             loginRequiredTitle: 'Login Required',
             loginRequiredText: 'To use this feature you must sign in. You will be redirected to Puter for secure authentication.',
             loginRequiredQuestion: 'Continue?',
@@ -135,6 +143,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('settings-title').innerText = t.settings;
         document.getElementById('close-settings').innerText = t.closeSettings;
         document.getElementById('language-label').innerText = t.languageLabel;
+        document.getElementById("theme-label").innerText = t.themeLabel;
+        document.getElementById("theme-default-option").innerText = t.themeDefault;
+        document.getElementById("theme-light-option").innerText = t.themeLight;
+        document.getElementById("theme-dark-option").innerText = t.themeDark;
         document.getElementById('login-required-title').innerText = t.loginRequiredTitle;
         document.getElementById('login-required-text').innerText = t.loginRequiredText;
         document.getElementById('login-required-question').innerText = t.loginRequiredQuestion;
@@ -426,11 +438,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    const applyTheme = (theme) => {
+        if (theme === "dark") {
+            document.documentElement.classList.add("dark");
+            document.body.style.backgroundColor = "#1f2937";
+        } else if (theme === "light") {
+            document.documentElement.classList.remove("dark");
+            document.body.style.backgroundColor = "#f8fafc";
+        } else {
+            document.documentElement.classList.remove("dark");
+            document.body.style.backgroundColor = "";
+        }
+    };
     // --- APP INITIALIZATION ---
     async function initializeApp() {
         applyTranslations();
         const languageSelect = document.getElementById('language-select');
         languageSelect.value = currentLang;
+        const themeSelect = document.getElementById("theme-select");
+        themeSelect.value = localStorage.getItem("theme") || "default";
+        applyTheme(themeSelect.value);
+        themeSelect.addEventListener("change", () => {
+            const th = themeSelect.value;
+            localStorage.setItem("theme", th);
+            applyTheme(th);
+        });
         languageSelect.addEventListener('change', () => {
             currentLang = languageSelect.value;
             localStorage.setItem('lang', currentLang);
