@@ -34,6 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
             actionSummarize: 'Resumir',
             actionExpand: 'Expandir',
             actionCustom: 'Personalizado',
+            feedback: 'Ofrecer comentarios',
+            feedbackTitle: 'Tus comentarios',
+            sendFeedback: 'Enviar',
+            cancelFeedback: 'Cancelar',
             copy: 'Copiar',
             copied: '¡Copiado!',
             signIn: 'Iniciar Sesión',
@@ -87,6 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
             actionSummarize: 'Summarize',
             actionExpand: 'Expand',
             actionCustom: 'Custom',
+            feedback: 'Give Feedback',
+            feedbackTitle: 'Your feedback',
+            sendFeedback: 'Send',
+            cancelFeedback: 'Cancel',
             copy: 'Copy',
             copied: 'Copied!',
             signIn: 'Sign In',
@@ -153,6 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('btn-summarize').innerText = t.actionSummarize;
         document.getElementById('btn-expand').innerText = t.actionExpand;
         document.getElementById('btn-custom').innerText = t.actionCustom;
+        document.getElementById('feedback-btn').innerText = t.feedback;
+        document.getElementById('feedback-title').innerText = t.feedbackTitle;
+        document.getElementById('cancel-feedback').innerText = t.cancelFeedback;
+        document.getElementById('submit-feedback').innerText = t.sendFeedback;
         copyButton.innerText = t.copy;
         document.getElementById('privacy-link').innerText = t.privacy || 'Política de Privacidad';
         document.getElementById('terms-link').innerText = t.legalTerms || 'Términos de Uso';
@@ -167,27 +179,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const PROMPTS = {
         correct: {
             title: 'Texto Corregido',
-            prompt: 'Actúa como un experto corrector de textos. Revisa el siguiente texto, corrige cualquier error de ortografía, gramática y puntuación. Mejora la redacción para que sea más clara y fluida, pero sin cambiar el significado. Devuelve únicamente el texto corregido, sin explicaciones (esto es MUY IMPORTANTE, ya que no estás en un chat convencional). Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
+            prompt: 'Actúa como un experto corrector de textos. Revisa el siguiente texto, corrige cualquier error de ortografía, gramática y puntuación y mejora la redacción sin alterar el significado. Entrega únicamente el texto corregido: no incluyas explicaciones ni frases de cortesía como \"Claro, aquí tienes\". Responde en el idioma en que esté el texto a mejorar.'
         },
         formal: {
             title: 'Texto Formalizado',
-            prompt: 'Actúa como un asistente de redacción profesional. Transforma el siguiente texto a un tono estrictamente formal, profesional y elocuente, adecuado para un entorno corporativo o académico. Devuelve únicamente el texto transformado, sin explicaciones (esto es MUY IMPORTANTE, ya que no estás en un chat convenciona). Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
+            prompt: 'Actúa como un asistente de redacción profesional. Transforma el siguiente texto a un tono estrictamente formal y elocuente, apto para un entorno académico o corporativo. Entrega únicamente el texto transformado, sin explicaciones ni frases iniciales. Responde en el idioma en que esté el texto a mejorar.'
         },
         casual: {
             title: 'Texto Casual',
-            prompt: 'Actúa como un redactor creativo y amigable. Convierte el siguiente texto a un tono casual, relajado y cercano, como si se lo estuvieras contando a un amigo. Puedes usar un lenguaje más coloquial si es apropiado. Devuelve únicamente el texto transformado, sin explicaciones (esto es MUY IMPORTANTE, ya que no estás en un chat convencional). Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
+            prompt: 'Actúa como un redactor creativo y amigable. Convierte el siguiente texto a un tono casual y cercano. Usa un lenguaje coloquial cuando sea apropiado y devuelve solo el texto resultante, sin explicaciones ni introducciones. Responde en el idioma en que esté el texto a mejorar.'
         },
         simplify: {
             title: 'Texto Simplificado',
-            prompt: 'Actúa como un experto en comunicación clara. Simplifica el siguiente texto para que sea muy fácil de entender para cualquier persona, incluso si no conoce el tema. Usa palabras sencillas y frases cortas. Devuelve únicamente el texto simplificado (esto es MUY IMPORTANTE, ya que no estás en un chat convencional). Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
+            prompt: 'Actúa como un experto en comunicación clara. Simplifica el siguiente texto con palabras sencillas y frases cortas. Devuelve únicamente el texto simplificado, sin explicaciones ni frases de cortesía. Responde en el idioma en que esté el texto a mejorar.'
         },
         summarize: {
             title: 'Resumen Generado',
-            prompt: 'Actúa como un analista experto. Genera un resumen conciso y claro del siguiente texto, extrayendo las ideas principales y los puntos clave. El resumen debe ser breve y directo al grano. Devuelve únicamente el resumen (esto es MUY IMPORTANTE, ya que no estás en un chat convencional). Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
+            prompt: 'Actúa como un analista experto. Resume el siguiente texto de forma breve y directa al grano. Entrega únicamente el resumen, sin explicaciones ni introducciones. Responde en el idioma en que esté el texto a mejorar.'
         },
         expand: {
             title: 'Texto Expandido',
-            prompt: 'Actúa como un escritor experto. Toma la siguiente idea o texto y desarróllalo con más detalle. Añade información relevante, ejemplos, o explicaciones para enriquecer el contenido original de forma coherente. Devuelve únicamente el texto expandido (esto es MUY IMPORTANTE, ya que no estás en un chat convencional). Responde en el idioma que está el texto a mejorar (no este prompt) (esto es MUY IMPORTANTE).'
+            prompt: 'Actúa como un escritor experto. Toma la siguiente idea o texto y desarróllala con más detalle y ejemplos relevantes. Devuelve únicamente el texto expandido, sin explicaciones ni frases de introducción. Responde en el idioma en que esté el texto a mejorar.'
         }
     };
 
@@ -221,6 +233,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedPromptsList = document.getElementById('saved-prompts-list');
     const confirmCustomPromptBtn = document.getElementById('confirm-custom-prompt');
     const cancelCustomPromptBtn = document.getElementById('cancel-custom-prompt');
+    const feedbackBtn = document.getElementById('feedback-btn');
+    const feedbackModal = document.getElementById('feedback-modal');
+    const feedbackText = document.getElementById('feedback-text');
+    const submitFeedbackBtn = document.getElementById('submit-feedback');
+    const cancelFeedbackBtn = document.getElementById('cancel-feedback');
     const historyOverlay = document.getElementById('history-overlay');
 
     // --- AUTH, MODALS & SETTINGS LOGIC ---
@@ -489,6 +506,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         cancelCustomPromptBtn.addEventListener('click', () => { hideCustomPromptModal(); pendingAction = null; });
+
+        feedbackBtn.addEventListener('click', () => { feedbackText.value = ''; feedbackModal.classList.remove('hidden'); });
+        cancelFeedbackBtn.addEventListener('click', () => feedbackModal.classList.add('hidden'));
+        feedbackModal.addEventListener('click', (e) => { if (e.target === feedbackModal) feedbackModal.classList.add('hidden'); });
+        submitFeedbackBtn.addEventListener('click', () => {
+            const comment = feedbackText.value.trim();
+            const mailto = `mailto:service.correctia@gmail.com?subject=Correctia%20Feedback&body=${encodeURIComponent(comment)}`;
+            window.location.href = mailto;
+            feedbackModal.classList.add('hidden');
+        });
 
         renderHistory();
     }
