@@ -41,7 +41,7 @@
 No se necesita instalación ni servidor. Basta con abrir el archivo `index.html` en cualquier navegador moderno.
 
 ```bash
-git clone https://github.com/tu-usuario/correctia.git
+git clone https://github.com/editorTK/correctia.git
 cd correctia
 # Abrir index.html en el navegador
 ```
