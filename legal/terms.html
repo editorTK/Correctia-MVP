@@ -1,23 +1,89 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Términos de Uso - Correctia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Script opcional para manejar el tema oscuro si lo deseas en estas páginas también
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-sans flex flex-col min-h-screen">
 
-{% block content %}
-<div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg prose dark:prose-invert max-w-none">
-    <h1>Términos de Uso</h1>
-    <p><em>Última actualización: 7 de Junio de 2025</em></p>
+<div class="container mx-auto max-w-4xl p-4 md:p-8 flex-grow">
+    <header class="text-center mb-10 pt-8">
+        <a href="../index.html" class="text-4xl md:text-5xl font-bold text-blue-600 dark:text-blue-400 no-underline">Correctia 🚀</a>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">Términos y Condiciones de Uso</p>
+    </header>
 
-    <h2>Uso del Servicio</h2>
-    <ul>
-        <li>No utilices Correctia para actividades ilegales o que infrinjan derechos de terceros.</li>
-        <li>El servicio se ofrece "tal cual", sin garantías de ningún tipo.</li>
-        <li>Las correcciones provienen de un modelo de IA y pueden contener errores.</li>
-    </ul>
+    <main class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-lg shadow-lg">
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Última actualización: 10 de junio de 2025</p>
 
-    <h2>Limitación de Responsabilidad</h2>
-    <p>No nos hacemos responsables de ningún daño directo o indirecto que resulte del uso de nuestro servicio. Eres el único responsable de verificar la exactitud y adecuación del contenido generado.</p>
+        <h2 class="text-2xl font-semibold mb-4 text-blue-600 dark:text-blue-400">1. Aceptación de los Términos</h2>
+        <p class="mb-4">
+            Al acceder y utilizar Correctia (el "Servicio"), aceptas cumplir y estar sujeto a los siguientes términos y condiciones de uso ("Términos de Uso"). Si no estás de acuerdo con estos términos, no debes utilizar el Servicio.
+        </p>
 
-    <h2>Servicios de Terceros</h2>
-    <p>Correctia utiliza la plataforma <strong>Puter</strong> para gestionar la autenticación de usuarios, el procesamiento de pagos y las llamadas a la IA. Puter es la responsable de dichas operaciones y de cualquier incidencia relacionada con ellas. Correctia no asume responsabilidad por fallos o pérdidas derivadas de estos servicios externos.</p>
+        <h2 class="text-2xl font-semibold mt-6 mb-4 text-blue-600 dark:text-blue-400">2. Descripción del Servicio</h2>
+        <p class="mb-4">
+            Correctia es una aplicación web estática que proporciona herramientas de asistencia de redacción impulsadas por inteligencia artificial. Las funciones incluyen, entre otras, corrección de estilo y gramática, resumen, expansión y cambio de tono de textos.
+        </p>
 
-    <p class="border-t border-gray-400 pt-4 mt-4 text-sm"><strong>Aviso:</strong> Este es un texto de ejemplo. Para un proyecto real, es fundamental que consultes a un profesional legal para redactar tus términos.</p>
+        <h2 class="text-2xl font-semibold mt-6 mb-4 text-blue-600 dark:text-blue-400">3. Dependencia de Servicios de Terceros: Puter.com</h2>
+        <p class="mb-4">
+            El funcionamiento de las características principales de Correctia depende de la plataforma <strong>Puter.com</strong>, que gestiona:
+        </p>
+        <ul class="list-disc list-inside mb-4 space-y-2">
+            <li><strong>Autenticación y Cuentas de Usuario.</strong></li>
+            <li><strong>Llamadas a la API de Inteligencia Artificial.</strong></li>
+            <li><strong>Procesamiento de Pagos y Suscripciones</strong> (si aplica).</li>
+        </ul>
+        <div class="bg-red-100 dark:bg-red-900 border-l-4 border-red-500 dark:border-red-400 text-red-700 dark:text-red-200 p-4" role="alert">
+            <p class="font-bold">Limitación de Responsabilidad sobre Puter</p>
+            <p>
+                Correctia actúa como una interfaz para los servicios de Puter. Por lo tanto, <strong>no nos hacemos responsables de problemas relacionados con la plataforma Puter</strong>. Esto incluye, pero no se limita a: fallos en el inicio de sesión, interrupciones del servicio de IA, errores en el procesamiento de pagos, violaciones de datos o cualquier otro problema de seguridad o de servicio que se origine en Puter.com.
+            </p>
+        </div>
+        <p class="mt-4">
+            Al utilizar nuestro Servicio, aceptas que cualquier reclamación relacionada con estas funcionalidades debe dirigirse directamente a Puter. Te recomendamos leer sus términos de servicio: <a href="https://puter.com/legal/terms" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Términos de Servicio de Puter</a>.
+        </p>
+
+        <h2 class="text-2xl font-semibold mt-6 mb-4 text-blue-600 dark:text-blue-400">4. Uso Aceptable</h2>
+        <p class="mb-4">
+            Te comprometes a no utilizar el Servicio para ningún propósito ilegal o no autorizado. Eres el único responsable del contenido que envías y de las consecuencias de su uso. No debes introducir contenido malicioso, ofensivo o que infrinja los derechos de autor de terceros.
+        </p>
+
+        <h2 class="text-2xl font-semibold mt-6 mb-4 text-blue-600 dark:text-blue-400">5. Exclusión de Garantías</h2>
+        <p class="mb-4">
+            El Servicio se proporciona "tal cual" y "según disponibilidad", sin garantías de ningún tipo. No garantizamos que los resultados generados por la IA sean precisos, completos, fiables o libres de errores. Es tu responsabilidad revisar y validar la información generada antes de utilizarla.
+        </p>
+        
+        <h2 class="text-2xl font-semibold mt-6 mb-4 text-blue-600 dark:text-blue-400">6. Modificaciones a los Términos</h2>
+        <p class="mb-4">
+            Nos reservamos el derecho de modificar estos Términos en cualquier momento. La versión más reciente siempre estará disponible en esta página. El uso continuado del Servicio después de cualquier cambio constituye tu aceptación de los nuevos Términos.
+        </p>
+
+        <h2 class="text-2xl font-semibold mt-6 mb-4 text-blue-600 dark:text-blue-400">7. Contacto</h2>
+        <p>
+            Si tienes alguna pregunta sobre estos Términos de Uso, puedes contactarnos a través de <a href="mailto:service.correctia.com" class="text-blue-500 hover:underline">service.correctia.com</a>
+        </p>
+    </main>
 </div>
-{% endblock %}
+
+<footer class="w-full text-center p-4 text-gray-500 dark:text-gray-400 text-sm">
+    <p>&copy; 2025 Correctia. Todos los derechos reservados.</p>
+    <div class="mt-2">
+        <a href="legal/privacy_policy.html" class="hover:text-blue-500 underline">Política de Privacidad</a>
+        <span class="mx-2">|</span>
+        <a href="legal/terms.html" class="hover:text-blue-500 underline">Términos de Uso</a>
+    </div>
+</footer>
+
+</body>
+</html>
