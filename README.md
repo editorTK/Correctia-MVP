@@ -1,51 +1,55 @@
 # Correctia
 
-**Correctia** es una aplicación web sencilla y **estática**, desarrollada con tecnologías modernas y potenciada por **Inteligencia Artificial** mediante la biblioteca [Puter.js](https://puter.com/). Su propósito es ofrecer una experiencia rápida, intuitiva y eficiente para transformar textos en distintos estilos y niveles de complejidad.
+Correctia es un corrector y asistente de redacción basado en inteligencia artificial. La aplicación es totalmente estática y está construida con HTML, CSS y JavaScript. Mediante [Puter.js](https://puter.com/) se realizan las peticiones al modelo `gpt-4.1-nano`, por lo que se requiere iniciar sesión para acceder a las funciones de IA.
 
 ## Características principales
 
 - Corrección inteligente de ortografía, gramática y estilo.
-- Formalización de textos para un tono más académico o profesional.
-- Adaptación a un estilo más informal y cercano.
-- Simplificación de contenido complejo para hacerlo más accesible.
-- Generación de resúmenes automáticos.
-- Expansión de ideas con ejemplos y detalles adicionales.
-- Historial local de interacciones (hasta 10 entradas).
-- Alternancia entre modo claro y modo oscuro.
-- Autenticación mediante Puter para acceder a las funcionalidades de IA.
+- Transformación del texto a un tono formal o casual.
+- Simplificación de contenido complejo.
+- Generación de resúmenes y expansión de ideas.
+- Prompts personalizados con opción de guardarlos (hasta 2).
+- Historial local de interacciones (máximo 10 resultados).
+- Modal para enviar comentarios al equipo.
+- Interfaz disponible en español e inglés.
+- Tema claro u oscuro según la preferencia del sistema.
+- Autenticación mediante Puter.
 
 ## Tecnologías utilizadas
 
-- HTML5, CSS3 (con [TailwindCSS](https://tailwindcss.com/)) y JavaScript (ES6+)
-- [Puter.js](https://puter.com/) para autenticación y consultas al modelo de lenguaje
-- Modelo utilizado: `gpt-4.1-nano` (vía Puter API)
-- Lógica 100 % del lado del cliente: aplicación completamente estática
+- HTML5 y [TailwindCSS](https://tailwindcss.com/) para el diseño.
+- JavaScript moderno (`js/main.js`) para toda la lógica del cliente.
+- [Puter.js](https://puter.com/) para autenticación y consultas al modelo de lenguaje.
+- Aplicación 100 % estática sin backend.
 
-## Estructura de la aplicación
+## Estructura del repositorio
 
-- `index.html`: interfaz de usuario principal
-- `app.js`: contiene la lógica de autenticación, interacción con IA, manejo de historial, gestión del DOM, etc.
-- Prompts prediseñados para cada acción, seleccionados dinámicamente por el usuario
+- `index.html` – Página principal de la herramienta.
+- `js/main.js` – Lógica de autenticación, gestión de prompts, historial e interfaz.
+- `images/` – Recursos gráficos y logotipos.
+- `Blog/blog.html` – Sección con noticias y consejos.
+- `legal/` – Contiene `terms.html` y `privacy_policy.html`.
+- `CNAME` – Dominio personalizado para despliegues en GitHub Pages.
 
-## Funcionamiento
+## Funcionamiento básico
 
-1. El usuario introduce un texto.
-2. Selecciona una acción: Corregir, Formalizar, Simplificar, entre otras.
-3. Si ha iniciado sesión mediante Puter, se genera un prompt y se consulta el modelo IA.
-4. La respuesta se muestra en pantalla y se almacena localmente en el historial del navegador.
+1. Escribe o pega el texto a procesar.
+2. Elige alguna de las acciones disponibles.
+3. Si estás autenticado en Puter, se envía el prompt y se muestra la respuesta.
+4. Cada resultado se guarda en el historial local para consultarlo después.
 
-**Nota:** El uso de las funciones de IA requiere autenticación vía Puter.
+**Nota:** Las funciones de IA solo están disponibles al iniciar sesión.
 
-## Instalación y uso
+## Instalación y ejecución
 
-No se necesita instalación ni servidor. Basta con abrir el archivo `index.html` en cualquier navegador moderno.
+Clona el repositorio y abre `index.html` en tu navegador favorito. También puedes lanzar un servidor estático, por ejemplo `npx serve`, para probarlo de forma local.
 
 ```bash
 git clone https://github.com/editorTK/correctia.git
 cd correctia
-# Abrir index.html en el navegador
+# abrir index.html o ejecutar npx serve
 ```
 
-Abre index.html en tu navegador favorito y ¡listo!
+## Contribuciones
 
-
+Se agradecen comentarios y mejoras. Puedes abrir issues o enviar pull requests.
