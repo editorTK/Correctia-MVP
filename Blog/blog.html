@@ -9,10 +9,20 @@
     <meta property="og:description" content="Descubre cómo mejorar tu escritura con nuestro corrector de texto y herramientas de IA." />
     <meta property="og:type" content="article" />
     <title>Blog - Correctia</title>
-    <link rel="icon" type="image/png" href="../images/correctia-logo.png">
+    <link rel="icon" type="image/png" href="../images/icono-correctia.png">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E0155CNYPH"></script>
     <script>
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-E0155CNYPH');
+    </script>
+    <script>
+        const theme = localStorage.getItem('theme') || 'default';
+        if (theme === 'dark') {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
