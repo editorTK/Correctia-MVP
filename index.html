@@ -93,13 +93,9 @@
         <div id="user-auth-area" class="fixed top-4 right-20 z-20 flex items-center gap-3">
             </div>
         
-        <div id="nav-menu" class="fixed top-4 right-4 z-20">
-            <button id="nav-toggle" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full shadow-lg">☰</button>
-            <div id="nav-dropdown" class="hidden absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-                <button id="history-toggle" class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Historial</button>
-                <a id="articles-link" href="herramientas/articulos.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Crear Artículos</a>
-            </div>
-        </div>
+        <button id="history-toggle" class="fixed top-4 right-4 z-20 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full shadow-lg transition-transform transform hover:scale-110">
+            🕒
+        </button>
         
         <div id="settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-30 flex items-center justify-center">
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-sm">
@@ -111,7 +107,14 @@
                         <option value="en">English</option>
                     </select>
                 </div>
-                <button id="logout-btn" class="hidden mb-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg">Salir</button>
+                <div class="flex items-center justify-between mb-4">
+                    <label id="theme-label" for="theme-select" class="text-gray-800 dark:text-gray-200">Tema</label>
+                    <select id="theme-select" class="bg-gray-200 dark:bg-gray-700 rounded px-2 py-1">
+                        <option id="theme-default-option" value="default">Predeterminado</option>
+                        <option id="theme-light-option" value="light">Claro</option>
+                        <option id="theme-dark-option" value="dark">Oscuro</option>
+                    </select>
+                </div>
                 <button id="feedback-btn" class="mb-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg">Ofrecer comentarios</button>
                 <button id="close-settings" class="mt-2 w-full bg-gray-200 dark:bg-gray-600 py-2 rounded-lg">Cerrar</button>
             </div>
