@@ -6,10 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
             settings: 'Ajustes',
             closeSettings: 'Cerrar',
             languageLabel: 'Idioma',
-            themeLabel: "Tema",
-            themeDefault: "Predeterminado",
-            themeLight: "Claro",
-            themeDark: "Oscuro",
             loginRequiredTitle: 'Inicio de Sesión Requerido',
             loginRequiredText: 'Para usar esta función, necesitas iniciar sesión. Serás redirigido a Puter para autenticarte de forma segura.',
             loginRequiredQuestion: '¿Deseas continuar?',
@@ -67,10 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
             settings: 'Settings',
             closeSettings: 'Close',
             languageLabel: 'Language',
-            themeLabel: "Theme",
-            themeDefault: "Default",
-            themeLight: "Light",
-            themeDark: "Dark",
             loginRequiredTitle: 'Login Required',
             loginRequiredText: 'To use this feature you must sign in. You will be redirected to Puter for secure authentication.',
             loginRequiredQuestion: 'Continue?',
@@ -143,10 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('settings-title').innerText = t.settings;
         document.getElementById('close-settings').innerText = t.closeSettings;
         document.getElementById('language-label').innerText = t.languageLabel;
-        document.getElementById("theme-label").innerText = t.themeLabel;
-        document.getElementById("theme-default-option").innerText = t.themeDefault;
-        document.getElementById("theme-light-option").innerText = t.themeLight;
-        document.getElementById("theme-dark-option").innerText = t.themeDark;
         document.getElementById('login-required-title').innerText = t.loginRequiredTitle;
         document.getElementById('login-required-text').innerText = t.loginRequiredText;
         document.getElementById('login-required-question').innerText = t.loginRequiredQuestion;
@@ -177,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('feedback-title').innerText = t.feedbackTitle;
         document.getElementById('cancel-feedback').innerText = t.cancelFeedback;
         document.getElementById('submit-feedback').innerText = t.sendFeedback;
+        logoutBtnSettings.innerText = t.signOut;
         copyButton.innerText = t.copy;
         document.getElementById('privacy-link').innerText = t.privacy || 'Política de Privacidad';
         document.getElementById('terms-link').innerText = t.legalTerms || 'Términos de Uso';
@@ -246,6 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmCustomPromptBtn = document.getElementById('confirm-custom-prompt');
     const cancelCustomPromptBtn = document.getElementById('cancel-custom-prompt');
     const feedbackBtn = document.getElementById('feedback-btn');
+    const logoutBtnSettings = document.getElementById('logout-btn-settings');
     const feedbackModal = document.getElementById('feedback-modal');
     const feedbackText = document.getElementById('feedback-text');
     const submitFeedbackBtn = document.getElementById('submit-feedback');
@@ -259,16 +249,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateAuthStateUI = async () => {
         if (puter.auth.isSignedIn()) {
             const user = await puter.auth.getUser();
-            userAuthArea.innerHTML = `
-                <span class="text-sm font-medium text-gray-800 dark:text-gray-200">${getT('hello')} ${user.username}</span>
-                <button id="logout-btn" class="bg-red-600 text-white text-sm py-2 px-3 rounded-lg hover:bg-red-700">${getT('signOut')}</button>
-            `;
-            document.getElementById('logout-btn').addEventListener('click', handleSignOut);
+            userAuthArea.innerHTML = `<span class="text-sm font-medium text-gray-800 dark:text-gray-200">${getT('hello')} ${user.username}</span>`;
+            logoutBtnSettings.classList.remove('hidden');
         } else {
-            userAuthArea.innerHTML = `
-                <button id="sign-in-btn" class="bg-green-600 text-white text-sm font-bold py-2 px-4 rounded-lg hover:bg-green-700">${getT('signIn')}</button>
-            `;
+            userAuthArea.innerHTML = `<button id="sign-in-btn" class="bg-green-600 text-white text-sm font-bold py-2 px-4 rounded-lg hover:bg-green-700">${getT('signIn')}</button>`;
             document.getElementById('sign-in-btn').addEventListener('click', handleSignIn);
+            logoutBtnSettings.classList.add('hidden');
         }
     };
 
@@ -438,31 +424,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const applyTheme = (theme) => {
-        if (theme === "dark") {
-            document.documentElement.classList.add("dark");
-            document.body.style.backgroundColor = "#1f2937";
-        } else if (theme === "light") {
-            document.documentElement.classList.remove("dark");
-            document.body.style.backgroundColor = "#f8fafc";
-        } else {
-            document.documentElement.classList.remove("dark");
-            document.body.style.backgroundColor = "";
-        }
-    };
     // --- APP INITIALIZATION ---
     async function initializeApp() {
         applyTranslations();
         const languageSelect = document.getElementById('language-select');
         languageSelect.value = currentLang;
-        const themeSelect = document.getElementById("theme-select");
-        themeSelect.value = localStorage.getItem("theme") || "default";
-        applyTheme(themeSelect.value);
-        themeSelect.addEventListener("change", () => {
-            const th = themeSelect.value;
-            localStorage.setItem("theme", th);
-            applyTheme(th);
-        });
         languageSelect.addEventListener('change', () => {
             currentLang = languageSelect.value;
             localStorage.setItem('lang', currentLang);
@@ -475,6 +441,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         settingsToggle.addEventListener('click', () => settingsModal.classList.remove('hidden'));
         closeSettingsBtn.addEventListener('click', () => settingsModal.classList.add('hidden'));
+        logoutBtnSettings.addEventListener('click', () => {
+            settingsModal.classList.add('hidden');
+            handleSignOut();
+        });
         settingsModal.addEventListener('click', (e) => { if (e.target === settingsModal) settingsModal.classList.add('hidden'); });
         loginRequiredModal.addEventListener('click', (e) => { if (e.target === loginRequiredModal) hideLoginModal(); });
         acceptTermsModal.addEventListener('click', (e) => { if (e.target === acceptTermsModal) hideTermsModal(); });
