@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generador de artículos con IA" />
+    <title>Crear Artículos - Correctia</title>
+    <link rel="icon" type="image/png" href="../images/icono-correctia.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.puter.com/v2/"></script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-sans flex flex-col min-h-screen">
+    <div class="container mx-auto max-w-4xl p-4 md:p-8 flex-grow">
+        <header class="text-center mb-6 pt-6">
+            <a href="../index.html" class="text-4xl md:text-5xl font-bold text-blue-600 dark:text-blue-400 no-underline">Correctia 🚀</a>
+            <p id="page-header" class="text-lg text-gray-600 dark:text-gray-400 mt-2">Crear Artículos</p>
+        </header>
+        <main class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-lg shadow-lg">
+            <form id="article-form" class="space-y-4">
+                <div>
+                    <label for="article-topic" class="block mb-2 font-medium">Tema o descripción</label>
+                    <textarea id="article-topic" rows="5" class="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700" placeholder="Escribe el tema de tu artículo..."></textarea>
+                </div>
+
+                <div>
+                    <label for="article-tone" class="block mb-2 font-medium">Tono (opcional)</label>
+                    <select id="article-tone" class="w-full p-2 border border-gray-300 rounded-lg dark:bg-gray-700">
+                        <option value="" selected>Sin preferencia</option>
+                        <option value="formal">Formal</option>
+                        <option value="informal">Informal</option>
+                        <option value="casual">Casual</option>
+                        <option value="custom">Personalizado...</option>
+                    </select>
+                    <input type="text" id="custom-tone" class="w-full p-2 mt-2 border border-gray-300 rounded-lg dark:bg-gray-700 hidden" placeholder="Escribe el tono deseado">
+                </div>
+
+
+                <div>
+                    <label for="article-size" class="block mb-2 font-medium">Tamaño (opcional)</label>
+                    <select id="article-size" class="w-full p-2 border border-gray-300 rounded-lg dark:bg-gray-700">
+                        <option value="" selected>Sin preferencia</option>
+                        <option value="pequeño">Pequeño</option>
+                        <option value="mediano">Mediano</option>
+                        <option value="grande">Grande</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="article-keywords" class="block mb-2 font-medium">Palabras clave (opcional)</label>
+                    <input type="text" id="article-keywords" class="w-full p-2 border border-gray-300 rounded-lg dark:bg-gray-700" placeholder="SEO, marketing, IA...">
+                </div>
+
+                <div>
+                    <label for="article-language" class="block mb-2 font-medium">Idioma</label>
+                    <select id="article-language" class="w-full p-2 border border-gray-300 rounded-lg dark:bg-gray-700" required>
+                        <option value="español">Español</option>
+                        <option value="inglés">Inglés</option>
+                        <option value="otro">Otro...</option>
+                    </select>
+                    <input type="text" id="custom-language" class="w-full p-2 mt-2 border border-gray-300 rounded-lg dark:bg-gray-700 hidden" placeholder="Especifica el idioma">
+                </div>
+
+                <button id="toggle-advanced" type="button" class="text-blue-600 hover:underline">Configuración avanzada</button>
+
+                <div id="advanced-section" class="hidden space-y-4 border-t pt-4">
+                    <div>
+                        <label for="audience-age" class="block mb-2 font-medium">Rango de edad del público objetivo</label>
+                        <input type="text" id="audience-age" class="w-full p-2 border border-gray-300 rounded-lg dark:bg-gray-700" placeholder="18-35, por ejemplo">
+                    </div>
+                    <div>
+                        <label for="markdown-format" class="block mb-2 font-medium">Formato Markdown</label>
+                        <select id="markdown-format" class="w-full p-2 border border-gray-300 rounded-lg dark:bg-gray-700">
+                            <option value="no" selected>No</option>
+                            <option value="si">Sí</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="reading-level" class="block mb-2 font-medium">Nivel de lectura</label>
+                        <select id="reading-level" class="w-full p-2 border border-gray-300 rounded-lg dark:bg-gray-700">
+                            <option value="basico">Básico</option>
+                            <option value="intermedio">Intermedio</option>
+                            <option value="profesional">Profesional</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="person-grammar" class="block mb-2 font-medium">Persona gramatical</label>
+                        <select id="person-grammar" class="w-full p-2 border border-gray-300 rounded-lg dark:bg-gray-700">
+                            <option value="" selected>Sin preferencia</option>
+                            <option value="1ra persona">1ra persona</option>
+                            <option value="2da persona">2da persona</option>
+                            <option value="3ra persona">3ra persona</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="html-format" class="block mb-2 font-medium">Formato HTML</label>
+                        <select id="html-format" class="w-full p-2 border border-gray-300 rounded-lg dark:bg-gray-700">
+                            <option value="no" selected>No</option>
+                            <option value="si">Sí</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Generar Artículo</button>
+            </form>
+            <div id="article-result-section" class="mt-6 hidden">
+                <div class="flex justify-between items-center mb-3 border-b-2 border-gray-300 dark:border-gray-700 pb-2">
+                    <h2 class="text-2xl font-semibold">Artículo Generado</h2>
+                    <div class="flex gap-2">
+                        <button id="copy-article" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-sm font-medium py-2 px-4 rounded-lg">Copiar</button>
+                        <button id="convert-html" class="bg-purple-600 hover:bg-purple-700 text-sm font-medium text-white py-2 px-4 rounded-lg">Convertir a HTML</button>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                    <pre id="article-result" class="whitespace-pre-wrap font-sans"></pre>
+                </div>
+                <div id="swipe-hint" class="hidden mt-2 text-center text-sm text-gray-600 dark:text-gray-400">Desliza a la derecha o izquierda para alternar entre HTML y formato normal</div>
+            </div>
+        </main>
+    </div>
+    <footer class="w-full text-center p-4 text-gray-500 dark:text-gray-400 text-sm">
+        <p>&copy; 2025 Correctia. Todos los derechos reservados.</p>
+        <div class="mt-2">
+            <a href="../legal/privacy_policy.html" class="hover:text-blue-500 underline">Política de Privacidad</a>
+            <span class="mx-2">|</span>
+            <a href="../legal/terms.html" class="hover:text-blue-500 underline">Términos de Uso</a>
+            <span class="mx-2">|</span>
+            <a href="../Blog/blog.html" class="hover:text-blue-500 underline">Blog</a>
+        </div>
+    </footer>
+    <script src="../js/articulos.js" defer></script>
+</body>
+</html>

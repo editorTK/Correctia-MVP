@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Correctia es un corrector de ortografía y redacción gratuito potenciado por IA. Mejora tus textos de manera rápida y sencilla.">
+    <meta name="keywords" content="corrector ortografía, redacción, inteligencia artificial, corrector de texto, Correctia">
+    <meta property="og:title" content="Correctia - Tu Asistente de Redacción IA">
+    <meta property="og:description" content="Herramienta online para corregir ortografía y mejorar la redacción con ayuda de inteligencia artificial.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://correctia.pro/index.html">
+    <title>Correctia - Tu Asistente de Redacción IA</title>
+    <link rel="icon" type="image/png" href="images/icono-correctia.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E0155CNYPH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-E0155CNYPH');
+    </script>
+    <script src="https://js.puter.com/v2/"></script>
+    <script src="https://cdn.jsdelivr.net/npm/franc@6.1.0/dist/franc.min.js"></script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-sans flex flex-col min-h-screen">
+
+        
+
+        
+
+    <div class="container mx-auto max-w-4xl p-4 md:p-8 flex-grow">
+        
+
+        <div id="login-required-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40 flex items-center justify-center p-4">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-sm text-center">
+                <h3 id="login-required-title" class="text-xl font-bold mb-2">Inicio de Sesión Requerido</h3>
+                <p id="login-required-text" class="text-gray-600 dark:text-gray-300 mb-4">Para usar esta función, necesitas iniciar sesión. Serás redirigido a Puter para autenticarte de forma segura.</p>
+                <p id="login-required-question" class="text-sm text-gray-500 mb-6">¿Deseas continuar?</p>
+                <div class="flex justify-center gap-4">
+                    <button id="cancel-login-btn" class="bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 py-2 px-6 rounded-lg hover:bg-gray-400">Cancelar</button>
+                    <button id="confirm-login-btn" class="bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700">Sí, iniciar sesión</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="accept-terms-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40 flex items-center justify-center p-4">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-sm text-center">
+                <h3 id="terms-title" class="text-lg font-bold mb-2">Términos de Uso</h3>
+                <p id="terms-text" class="text-sm mb-4">Debes aceptar nuestros <a href="legal/terms.html" class="underline text-blue-600">Términos de Uso</a> antes de continuar.</p>
+                <div class="flex justify-center gap-4">
+                    <button id="cancel-terms-btn" class="bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 py-2 px-4 rounded-lg hover:bg-gray-400">Cancelar</button>
+                    <button id="accept-terms-btn" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Aceptar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="custom-prompt-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40 flex items-center justify-center p-4">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md">
+                <h3 id="custom-prompt-title" class="text-xl font-bold mb-4">Prompt Personalizado</h3>
+                <textarea id="custom-prompt-input" rows="4" class="w-full p-2 border rounded mb-2 dark:bg-gray-700" data-i18n-placeholder="customPromptPlaceholder"></textarea>
+                <div class="flex items-center mb-4">
+                    <input type="checkbox" id="save-custom-prompt" class="mr-2">
+                    <label id="save-custom-prompt-label" for="save-custom-prompt" class="text-sm">Guardar para después</label>
+                </div>
+                <div id="saved-prompts-list" class="space-y-1 mb-4"></div>
+                <div class="flex justify-end gap-4">
+                    <button id="cancel-custom-prompt" class="bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 py-2 px-4 rounded-lg hover:bg-gray-400">Cancelar</button>
+                    <button id="confirm-custom-prompt" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Usar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="feedback-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40 flex items-center justify-center p-4">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md">
+                <h3 id="feedback-title" class="text-xl font-bold mb-4">Tus comentarios</h3>
+                <textarea id="feedback-text" rows="4" class="w-full p-2 border rounded mb-4 dark:bg-gray-700"></textarea>
+                <div class="flex justify-end gap-4">
+                    <button id="cancel-feedback" class="bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 py-2 px-4 rounded-lg hover:bg-gray-400">Cancelar</button>
+                    <button id="submit-feedback" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Enviar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="history-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-10"></div>
+        <div id="nav-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-10"></div>
+
+        <div id="user-auth-area" class="fixed top-4 right-20 z-20 flex items-center gap-3">
+            </div>
+        
+        <div id="nav-menu" class="fixed top-4 right-4 z-20 relative" style="top:calc(1rem - 5px);right:calc(1rem - 26px)">
+          <button id="menu-toggle" class="text-2xl bg-gray-700 hover:bg-gray-600 text-white p-2 rounded-lg shadow-lg transition-transform transform hover:scale-110">☰</button>
+            <div id="menu-items" class="hidden fixed inset-0 z-30 flex items-center justify-center">
+                <div id="menu-content" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl p-4 w-64">
+                    <ul class="flex flex-col gap-2">
+                        <li><button id="history-toggle" class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg">🕒 Historial</button></li>
+                        <li><button id="settings-toggle" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">⚙ Ajustes</button></li>
+                        <li><a href="herramientas/articulos.html" id="create-articles" class="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg">Crear Artículos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="articles-hint" class="hidden fixed top-16 right-56 bg-yellow-200 border border-yellow-400 text-yellow-900 px-3 py-2 rounded shadow-lg">
+            <span id="articles-hint-text">Puedes crear artículos desde aquí</span>
+            <span class="absolute -right-4 top-1/2 transform -translate-y-1/2 text-2xl">⬅️</span>
+        </div>
+        
+        <div id="settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-30 flex items-center justify-center">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-sm">
+                <h3 id="settings-title" class="text-xl font-bold mb-4">Ajustes</h3>
+                <div class="flex items-center justify-between mb-4">
+                    <label id="language-label" for="language-select" class="text-gray-800 dark:text-gray-200">Idioma</label>
+                    <select id="language-select" class="bg-gray-200 dark:bg-gray-700 rounded px-2 py-1">
+                        <option value="es">Español</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <button id="feedback-btn" class="mb-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg">Ofrecer comentarios</button>
+                <button id="logout-btn-settings" class="mb-2 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg hidden">Salir</button>
+                <button id="close-settings" class="mt-2 w-full bg-gray-200 dark:bg-gray-600 py-2 rounded-lg">Cerrar</button>
+            </div>
+        </div>
+        
+        <aside id="history-panel" class="hidden fixed top-0 right-0 h-full w-80 bg-gray-800 shadow-xl z-20 flex flex-col p-4 transform transition-transform translate-x-full">
+            <div class="flex-shrink-0">
+            <h3 id="history-title" class="text-xl font-bold text-white mb-4">Historial</h3>
+            </div>
+            <div id="history-list" class="flex-grow space-y-2 overflow-y-auto"></div>
+            <div class="flex-shrink-0 pt-2">
+                <button id="clear-history-btn" class="w-full bg-red-600 hover:bg-red-700 text-white text-sm font-bold py-2 px-4 rounded-lg">
+                    Limpiar Historial
+                </button>
+            </div>
+        </aside>
+
+        <header class="text-center mb-4 pt-4">
+              <h1 class="flex items-center justify-center text-4xl md:text-5xl font-bold text-blue-600 dark:text-blue-400"><img src="images/correctia-logo.png" alt="Correctia — Redacción con IA" class="w-56 md:w-64 h-auto"><span class="ml-2 text-4xl md:text-5xl">🚀</span></h1>
+            <p id="header-subtitle" class="text-lg text-gray-600 dark:text-gray-400 mt-1">Tu navaja suiza de redacción con IA.</p>
+        </header>
+
+        <main>
+            <form id="main-form">
+                <div class="mb-4">
+                    <label for="text-to-correct" class="sr-only">Texto a procesar</label>
+                    <textarea id="text-to-correct" rows="10" class="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-blue-400 dark:placeholder-gray-500" placeholder="Escribe o pega tu texto aquí..." data-i18n-placeholder="mainTextarea"></textarea>
+                </div>
+                
+                <div class="flex flex-col items-center gap-4">
+                    <button id="main-action-btn" type="submit" data-action="correct" class="action-btn w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+                        ✨ Corregir Ortografía y Estilo
+                    </button>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <span id="other-actions-label" class="text-sm self-center text-gray-500 mr-2">Otras acciones:</span>
+                        <button id="btn-formal" type="button" data-action="formal" class="action-btn text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 py-1 px-3 rounded-full">Formal</button>
+                        <button id="btn-casual" type="button" data-action="casual" class="action-btn text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 py-1 px-3 rounded-full">Casual</button>
+                        <button id="btn-simplify" type="button" data-action="simplify" class="action-btn text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 py-1 px-3 rounded-full">Simplificar</button>
+                        <button id="btn-summarize" type="button" data-action="summarize" class="action-btn text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 py-1 px-3 rounded-full">Resumir</button>
+                        <button id="btn-expand" type="button" data-action="expand" class="action-btn text-sm bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 py-1 px-3 rounded-full">Expandir</button>
+                        <button id="btn-custom" type="button" data-action="custom" class="action-btn text-sm bg-purple-600 hover:bg-purple-700 text-white py-1 px-3 rounded-full">Personalizado</button>
+                    </div>
+                </div>
+            </form>
+            
+            <div id="result-section" class="mt-12 hidden">
+                <div class="flex justify-between items-center mb-3 border-b-2 border-gray-300 dark:border-gray-700 pb-2">
+                    <h2 id="result-title" class="text-2xl font-semibold"></h2>
+                    <div class="flex gap-2">
+                        <button id="copy-button" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-sm font-medium py-2 px-4 rounded-lg">
+                            Copiar
+                        </button>
+                        <button id="toggle-changes-btn" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-sm font-medium py-2 px-4 rounded-lg hidden">
+                            Mostrar cambios
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                    <pre id="result-text-container" class="whitespace-pre-wrap font-sans"></pre>
+                </div>
+                <div id="response-info" class="mt-2 text-sm flex items-center gap-2 hidden">
+                    <span id="response-time" class="font-medium"></span>
+                    <span id="response-indicator" class="w-3 h-3 rounded-full"></span>
+                </div>
+                <div id="changes-section" class="hidden mt-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                    <h3 id="changes-title" class="text-lg font-semibold mb-2">Cambios realizados</h3>
+                    <ul id="changes-list" class="list-disc list-inside text-sm space-y-1"></ul>
+                </div>
+            </div>
+        </main>
+
+        <section id="how-it-works" class="mt-12 space-y-8">
+            <div id="what-is" class="text-center">
+                <h2 class="text-3xl font-semibold mb-4">¿Qué es Correctia?</h2>
+                <p class="max-w-2xl mx-auto">Correctia es una herramienta de inteligencia artificial que te ayuda a corregir, optimizar y crear textos directamente desde tu navegador. Funciona sin necesidad de descargar nada ni instalar extensiones. Su diseño está pensado para ser rápido, intuitivo y compatible con todos los dispositivos.</p>
+                <p class="max-w-2xl mx-auto mt-4">A diferencia de otros correctores automáticos, Correctia ofrece funciones avanzadas como:</p>
+                <ul class="list-disc list-inside max-w-md mx-auto text-left space-y-1 mt-2">
+                    <li>Corrección de ortografía, gramática y estilo</li>
+                    <li>Reescritura con distintos tonos (formal, casual, creativo, etc.)</li>
+                    <li>Resumen y expansión de ideas</li>
+                    <li>Personalización del texto para diferentes niveles de lectura</li>
+                    <li>Creación de artículos con parámetros SEO</li>
+                </ul>
+                <p class="max-w-2xl mx-auto mt-4">Todo esto con una interfaz moderna y adaptable, pensada tanto para estudiantes, creadores de contenido, redactores y profesionales del marketing.</p>
+            </div>
+
+            <div id="how-works" class="text-center">
+                <h2 class="text-3xl font-semibold mb-4">¿Cómo funciona Correctia?</h2>
+                <p class="max-w-2xl mx-auto">Usar Correctia es muy sencillo. Solo necesitas conexión a internet y una cuenta gratuita en Puter para acceder al motor de IA.</p>
+                <ol class="list-decimal list-inside max-w-md mx-auto text-left space-y-1 mt-2">
+                    <li>Pega tu texto o escribe directamente en el editor principal.</li>
+                    <li>Elige una acción: puedes corregir, cambiar el tono, resumir, simplificar o reescribir.</li>
+                    <li>Personaliza el resultado usando las opciones avanzadas: nivel de lectura, persona gramatical, formato HTML o Markdown, y mucho más.</li>
+                    <li>Haz clic en procesar y en segundos obtendrás un texto mejorado, listo para usar.</li>
+                </ol>
+                <p class="max-w-2xl mx-auto mt-4">Correctia guarda tu historial localmente, para que puedas revisar o reutilizar respuestas sin perder tu trabajo anterior.</p>
+            </div>
+
+            <div id="articles-section" class="text-center">
+                <h2 class="text-3xl font-semibold mb-4">Crea artículos con IA en segundos</h2>
+                <p class="max-w-2xl mx-auto">Además de corregir textos, Correctia te permite generar artículos desde cero, ideales para blogs, páginas web, redes sociales o estrategias de marketing.</p>
+                <p class="max-w-2xl mx-auto mt-4">En la sección &quot;Crear artículo&quot;, solo necesitas:</p>
+                <ul class="list-disc list-inside max-w-md mx-auto text-left space-y-1 mt-2">
+                    <li>Escribir el tema principal del artículo</li>
+                    <li>(Opcional) Ajustar el tono, tamaño, palabras clave, idioma, rango de edad del público objetivo, etc.</li>
+                    <li>Elegir si quieres salida en HTML o Markdown</li>
+                    <li>Definir la persona gramatical y el nivel de lectura</li>
+                </ul>
+                <p class="max-w-2xl mx-auto mt-4">La herramienta generará automáticamente un artículo estructurado y optimizado para tu audiencia, listo para publicar. Es ideal para quienes desean contenido de calidad sin perder tiempo en redacción desde cero.</p>
+            </div>
+        </section>
+       
+
+
+    <footer class="w-full text-center p-4 text-gray-500 dark:text-gray-400 text-sm">
+        <p>&copy; 2025 Correctia. Todos los derechos reservados.</p>
+        <div class="mt-2">
+            <a id="privacy-link" href="legal/privacy_policy.html" class="hover:text-blue-500 underline">Política de Privacidad</a>
+            <span class="mx-2">|</span>
+            <a id="terms-link" href="legal/terms.html" class="hover:text-blue-500 underline">Términos de Uso</a>
+            <span class="mx-2">|</span>
+            <a id="blog-link" href="Blog/blog.html" class="hover:text-blue-500 underline">Blog</a>
+        </div>
+    </footer>
+    
+    <script src="js/main.js" defer></script>
+</body>
+</html>
