@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 custom: 'Resultado Personalizado'
             },
             createArticles: 'Crear Artículos',
-            articlesHint: 'Crea artículos desde este menú',
+            articlesHint: 'Genera artículos profesionales con IA desde este menú',
             whatIsHTML: `<h2 class="text-3xl font-semibold mb-4">¿Qué es Correctia?</h2>
                 <p class="max-w-2xl mx-auto">Correctia es una herramienta de inteligencia artificial que te ayuda a corregir, optimizar y crear textos directamente desde tu navegador. Funciona sin necesidad de descargar nada ni instalar extensiones. Su diseño está pensado para ser rápido, intuitivo y compatible con todos los dispositivos.</p>
                 <p class="max-w-2xl mx-auto mt-4">A diferencia de otros correctores automáticos, Correctia ofrece funciones avanzadas como:</p>
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 custom: 'Custom Result'
             },
             createArticles: 'Create Articles',
-            articlesHint: 'Create articles from this menu',
+            articlesHint: 'Generate professional articles with AI from this menu',
             whatIsHTML: `<h2 class="text-3xl font-semibold mb-4">What is Correctia?</h2>
                 <p class="max-w-2xl mx-auto">Correctia is an AI tool that helps you correct, optimize and create texts right in your browser. It works without downloads or extensions. Its design is fast, intuitive and compatible with all devices.</p>
                 <p class="max-w-2xl mx-auto mt-4">Unlike other automatic proofreaders, Correctia offers advanced features such as:</p>
