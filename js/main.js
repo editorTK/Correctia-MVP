@@ -514,6 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 navOverlay.classList.add('hidden');
                 menuItems.classList.add('hidden');
                 userAuthArea.classList.remove('hidden');
+                menuToggleBtn.classList.remove('hidden');
             });
             historyList.appendChild(div);
         });
@@ -600,21 +601,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         historyToggle.addEventListener('click', () => {
-            historyPanel.classList.toggle('hidden');
-            historyPanel.classList.toggle('translate-x-full');
-            historyOverlay.classList.toggle('hidden');
-            userAuthArea.classList.toggle('hidden');
-            navMenu.classList.toggle("hidden");
-            navOverlay.classList.add('hidden');
-            menuItems.classList.add('hidden');
+        historyPanel.classList.toggle('hidden');
+        historyPanel.classList.toggle('translate-x-full');
+        historyOverlay.classList.toggle('hidden');
+        userAuthArea.classList.toggle('hidden');
+        navMenu.classList.toggle("hidden");
+        navOverlay.classList.add('hidden');
+        menuItems.classList.add('hidden');
+        menuToggleBtn.classList.remove('hidden');
         });
         historyOverlay.addEventListener('click', () => {
-            historyPanel.classList.add('hidden', 'translate-x-full');
-            historyOverlay.classList.add('hidden');
-            navMenu.classList.remove("hidden");
-            navOverlay.classList.add('hidden');
-            menuItems.classList.add('hidden');
-            userAuthArea.classList.remove('hidden');
+        historyPanel.classList.add('hidden', 'translate-x-full');
+        historyOverlay.classList.add('hidden');
+        navMenu.classList.remove("hidden");
+        navOverlay.classList.add('hidden');
+        menuItems.classList.add('hidden');
+        userAuthArea.classList.remove('hidden');
+        menuToggleBtn.classList.remove('hidden');
         });
 
         clearHistoryBtn.addEventListener('click', clearHistory);
